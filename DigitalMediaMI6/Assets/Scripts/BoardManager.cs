@@ -14,7 +14,7 @@ public class BoardManager : MonoBehaviour
     private void Update()
     {
         UpdateSelection();
-		DrawChessboard();
+        DrawChessboard();
 
     }
 
@@ -26,20 +26,31 @@ public class BoardManager : MonoBehaviour
         for (int i = 0; i <= 8; i++)
         {
             Vector3 start = Vector3.forward * i;
-            Debug.DrawLine(start, start + widthLine);
+            Debug.DrawLine(start, start + widthLine, Color.green);
             for (int j = 0; j <= 8; j++)
             {
                 start = Vector3.right * j;
-                Debug.DrawLine(start, start + heigthLine);
+                Debug.DrawLine(start, start + heigthLine, Color.green);
 
             }
         }
     }
-	private void UpdateSelection(){
-		if(!Camera.main)
-			return;
+    private void UpdateSelection()
+    {
+        if (!Camera.main)
+            return;
 
-		RaycastHit hit;
-		//if(Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition),out hit, 25.0f, ))
-	}
+        RaycastHit hit;
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 25.0f, LayerMask.GetMask("ChessPlane")))
+        {
+            selectionX = (int)hit.point.x;
+            selectionY = (int)hit.point.z;
+        }
+        else
+        {
+            selectionX = -1;
+            selectionY = -1;
+        }
+        Debug.Log("x: "+selectionX + ", y: "+selectionY);
+    }
 }
