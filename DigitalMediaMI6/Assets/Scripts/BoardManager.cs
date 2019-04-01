@@ -34,6 +34,18 @@ public class BoardManager : MonoBehaviour
 
             }
         }
+
+        //Auswahl darstellen
+        if (selectionX >= 0 && selectionY >= 0)
+        {
+            Debug.DrawLine(
+                Vector3.forward * selectionY + Vector3.right * selectionX,
+                Vector3.forward * (selectionY + 1) + Vector3.right * (selectionX + 1), Color.red);
+
+            Debug.DrawLine(
+                Vector3.forward * (selectionY + 1) + Vector3.right * selectionX,
+                Vector3.forward * selectionY + Vector3.right * (selectionX + 1), Color.red);
+        }
     }
     private void UpdateSelection()
     {
@@ -51,6 +63,6 @@ public class BoardManager : MonoBehaviour
             selectionX = -1;
             selectionY = -1;
         }
-        Debug.Log("x: "+selectionX + ", y: "+selectionY);
+        Debug.Log("x: " + selectionX + ", y: " + selectionY);
     }
 }
