@@ -11,6 +11,14 @@ public class BoardManager : MonoBehaviour
     private int selectionX = -1;
     private int selectionY = -1;
 
+    public List<GameObject> chessmanPrefabs;
+    private List<GameObject> activeChessman = new List<GameObject>();
+
+
+    private void Start(){
+        SpawnChessman(0, Vector3.zero);
+    }
+
     private void Update()
     {
         UpdateSelection();
@@ -64,5 +72,12 @@ public class BoardManager : MonoBehaviour
             selectionY = -1;
         }
         Debug.Log("x: " + selectionX + ", y: " + selectionY);
+    }
+
+    private void SpawnChessman(int index, Vector3 position){
+        GameObject go  = Instantiate(chessmanPrefabs[index], position, Quaternion.identity) as GameObject;
+        go.transform.SetParent(transform);
+        activeChessman.Add(go);
+
     }
 }
