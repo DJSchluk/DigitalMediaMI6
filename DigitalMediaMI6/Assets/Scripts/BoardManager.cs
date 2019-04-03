@@ -12,11 +12,12 @@ public class BoardManager : MonoBehaviour
     private int selectionY = -1;
 
     public List<GameObject> chessmanPrefabs;
-    private List<GameObject> activeChessman = new List<GameObject>();
+    private List<GameObject> activeChessman;
 
 
-    private void Start(){
-        SpawnChessman(0, Vector3.zero);
+    private void Start()
+    {
+        SpawnAllChessmans();
     }
 
     private void Update()
@@ -74,10 +75,65 @@ public class BoardManager : MonoBehaviour
         Debug.Log("x: " + selectionX + ", y: " + selectionY);
     }
 
-    private void SpawnChessman(int index, Vector3 position){
-        GameObject go  = Instantiate(chessmanPrefabs[index], position, Quaternion.identity) as GameObject;
+    private void SpawnChessman(int index, Vector3 position)
+    {
+        GameObject go = Instantiate(chessmanPrefabs[index], position, Quaternion.identity) as GameObject;
         go.transform.SetParent(transform);
         activeChessman.Add(go);
 
+    }
+
+    private void SpawnAllChessmans()
+    {
+        activeChessman = new List<GameObject>();
+
+        //weiss
+        //König
+        SpawnChessman(0, GetTileCenter(4, 0));
+        //Dame
+        SpawnChessman(1, GetTileCenter(3, 0));
+        //Türme
+        SpawnChessman(2, GetTileCenter(0, 0));
+        SpawnChessman(2, GetTileCenter(7, 0));
+        //Läufer
+        SpawnChessman(3, GetTileCenter(2, 0));
+        SpawnChessman(3, GetTileCenter(5, 0));
+        //Springer
+        SpawnChessman(4, GetTileCenter(1, 0));
+        SpawnChessman(4, GetTileCenter(6, 0));
+        //Bauern
+        for (int i = 0; i < 8; i++)
+        {
+            SpawnChessman(5, GetTileCenter(i, 1));
+        }
+
+        //schwarz
+        //König
+        SpawnChessman(6, GetTileCenter(4, 7));
+        //Dame
+        SpawnChessman(7, GetTileCenter(3, 7));
+        //Türme
+        SpawnChessman(8, GetTileCenter(0, 7));
+        SpawnChessman(8, GetTileCenter(7, 7));
+        //Läufer
+        SpawnChessman(9, GetTileCenter(2, 7));
+        SpawnChessman(9, GetTileCenter(5, 7));
+        //Springer
+        SpawnChessman(10, GetTileCenter(1, 7));
+        SpawnChessman(10, GetTileCenter(6, 7));
+        //Bauern
+        for (int i = 0; i < 8; i++)
+        {
+            SpawnChessman(11, GetTileCenter(i, 6));
+        }
+
+    }
+
+    private Vector3 GetTileCenter(int x, int y)
+    {
+        Vector3 origin = Vector3.zero;
+        origin.x += (TILE_SIZE * x) + TILE_OFFSET;
+        origin.z += (TILE_SIZE * y) + TILE_OFFSET;
+        return origin;
     }
 }
