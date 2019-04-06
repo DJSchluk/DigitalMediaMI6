@@ -30,11 +30,11 @@ public class BoardManager : MonoBehaviour
         UpdateSelection();
         DrawChessboard();
 
-        if(Input.GetMouseButton(0))
+        if (Input.GetMouseButtonDown(0))
         {
-            if(selectionX >= 0 && selectionY >= 0)
+            if (selectionX >= 0 && selectionY >= 0)
             {
-                if(selectedChessman == null)
+                if (selectedChessman == null)
                 {
                     SelectChessman(selectionX, selectionY);
                 }
@@ -60,11 +60,12 @@ public class BoardManager : MonoBehaviour
 
     private void MoveChessman(int x, int y)
     {
-        if(selectedChessman.PossibleMove(x,y))
+        if (selectedChessman.PossibleMove(x, y))
         {
             Chessmans[selectedChessman.CurrentX, selectedChessman.CurrentY] = null;
             selectedChessman.transform.position = GetTileCenter(x, y);
             Chessmans[x, y] = selectedChessman;
+            isWhiteTurn = !isWhiteTurn;
         }
 
         selectedChessman = null;
