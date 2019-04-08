@@ -26,7 +26,7 @@ public class Koenig : Chessman
                     else if (isWhite != c.isWhite)
                         r[i, j] = true;
                 }
-
+                Debug.Log("Fehler bei Top Side");
                 i++;
             }
         }
@@ -46,7 +46,7 @@ public class Koenig : Chessman
                     else if (isWhite != c.isWhite)
                         r[i, j] = true;
                 }
-
+                Debug.Log("Fehler bei Down Side");
                 i++;
             }
         }
@@ -59,6 +59,8 @@ public class Koenig : Chessman
                 r[CurrentX - 1, CurrentY] = true;
             else if (isWhite != c.isWhite)
                 r[CurrentX - 1, CurrentY] = true;
+
+            Debug.Log("Fehler bei Middle Left");
         }
 
         //Middle Right
@@ -69,6 +71,7 @@ public class Koenig : Chessman
                 r[CurrentX + 1, CurrentY] = true;
             else if (isWhite != c.isWhite)
                 r[CurrentX + 1, CurrentY] = true;
+            Debug.Log("Fehler bei Middle Right");
         }
 
         return r;
