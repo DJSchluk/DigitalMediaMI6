@@ -13,7 +13,7 @@ public class Koenig : Chessman
 
         //Top Side
         i = CurrentX - 1;
-        j = CurrentY + 1;
+        j = CurrentY + 1;   
         if(CurrentY != 7)
         {
             for(int k = 0; k < 3; k++)
@@ -26,7 +26,7 @@ public class Koenig : Chessman
                     else if (isWhite != c.isWhite)
                         r[i, j] = true;
                 }
-                Debug.Log("Fehler bei Top Side");
+                Debug.Log("Fehler bei Top Side #Bug1");
                 i++;
             }
         }
