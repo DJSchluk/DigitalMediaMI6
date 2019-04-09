@@ -58,7 +58,7 @@ public class Bauer : Chessman
             //diagonal links
             if (CurrentX != 0 && CurrentY != 0)
             {
-                c = BoardManager.Instance.Chessmans[CurrentX - 1, CurrentY - 1];
+               c = BoardManager.Instance.Chessmans[CurrentX - 1, CurrentY - 1];
                 if (c != null && c.isWhite)
                 {
                     r[CurrentX - 1, CurrentY - 1] = true;
