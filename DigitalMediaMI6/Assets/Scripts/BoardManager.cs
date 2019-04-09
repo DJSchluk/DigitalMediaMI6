@@ -58,8 +58,18 @@ public class BoardManager : MonoBehaviour
         if (Chessmans[x, y].isWhite != isWhiteTurn)
             return;
 
+        //Funktion ob Figur einen Move machen kann oder nicht (Doppelklick Bug Fix)
+        bool hasAtleastOneMove = false;
+        allowedMoves = Chessmans[x, y].PossibleMove();
+        for (int i = 0; i < 8; i++)
+            for (int j = 0; j < 8; j++)
+                if (allowedMoves[i, j])
+                    hasAtleastOneMove = true;
 
-        allowedMoves = Chessmans[x,y].PossibleMove();
+        if (!hasAtleastOneMove)
+            return;
+        //Ende der Funktion
+
         selectedChessman = Chessmans[x, y];
         BoardHighlights.Instance.HighLightAllowedMoves(allowedMoves);
     }
@@ -75,6 +85,7 @@ public class BoardManager : MonoBehaviour
                 //Falls König
                 if(c.GetType()==typeof(Koenig)){
                     //end
+                    EndGame();
                     return;
                 }
                 activeChessman.Remove(c.gameObject);
@@ -202,4 +213,23 @@ public class BoardManager : MonoBehaviour
         origin.z += (TILE_SIZE * y) + TILE_OFFSET;
         return origin;
     }
+
+    private void EndGame()
+    {
+        if (isWhiteTurn)
+            Debug.Log("White team wins");
+        else
+            Debug.Log("Black team wins");
+
+        foreach (GameObject go in activeChessman)
+            Destroy(go);
+
+        isWhiteTurn = true;
+        BoardHighlights.Instance.HideHighlights();
+        SpawnAllChessmans(); 
+
+
+
+    }
+
 }

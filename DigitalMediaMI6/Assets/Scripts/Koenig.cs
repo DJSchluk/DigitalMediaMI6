@@ -13,10 +13,10 @@ public class Koenig : Chessman
 
         //Top Side
         i = CurrentX - 1;
-        j = CurrentY + 1;   
-        if(CurrentY != 7)
+        j = CurrentY + 1;
+        if (CurrentY != 7)
         {
-            for(int k = 0; k < 3; k++)
+            for (int k = 0; k < 3; k++)
             {
                 if (i >= 0 && i < 8)
                 {
@@ -26,7 +26,7 @@ public class Koenig : Chessman
                     else if (isWhite != c.isWhite)
                         r[i, j] = true;
                 }
-                Debug.Log("Fehler bei Top Side #Bug1");
+
                 i++;
             }
         }
@@ -46,7 +46,7 @@ public class Koenig : Chessman
                     else if (isWhite != c.isWhite)
                         r[i, j] = true;
                 }
-                Debug.Log("Fehler bei Down Side");
+
                 i++;
             }
         }
@@ -60,7 +60,7 @@ public class Koenig : Chessman
             else if (isWhite != c.isWhite)
                 r[CurrentX - 1, CurrentY] = true;
 
-            Debug.Log("Fehler bei Middle Left");
+
         }
 
         //Middle Right
@@ -71,7 +71,7 @@ public class Koenig : Chessman
                 r[CurrentX + 1, CurrentY] = true;
             else if (isWhite != c.isWhite)
                 r[CurrentX + 1, CurrentY] = true;
-            Debug.Log("Fehler bei Middle Right");
+
         }
 
         return r;
