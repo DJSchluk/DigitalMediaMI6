@@ -18,8 +18,8 @@ public class SpawnFigures : MonoBehaviour {
 	}
 
 	void Update () {
-		
-	}
+
+    }
 
     public void SpawnAllChessmans()
     {
