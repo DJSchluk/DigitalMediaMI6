@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DrawBoard : MonoBehaviour {
+public class DrawBoard
+{
 
     private int selectionX = -1;
     private int selectionY = -1;
 
-    private void Update()
+    public void UpdateDrawBoard()
     {
         DrawChessboard();
     }
@@ -40,5 +41,15 @@ public class DrawBoard : MonoBehaviour {
                 Vector3.forward * (selectionY + 1) + Vector3.right * selectionX,
                 Vector3.forward * selectionY + Vector3.right * (selectionX + 1), Color.red);
         }
+    }
+    public void SetSelectionX(int selectionX)
+    {
+        this.selectionX = selectionX;
+    }
+
+
+    public void SetSelectionY(int selectionY)
+    {
+        this.selectionY = selectionY;
     }
 }
