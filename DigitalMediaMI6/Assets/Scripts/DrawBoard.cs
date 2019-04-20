@@ -41,6 +41,7 @@ public class DrawBoard
                 Vector3.forward * (selectionY + 1) + Vector3.right * selectionX,
                 Vector3.forward * selectionY + Vector3.right * (selectionX + 1), Color.red);
         }
+        //Debug.Log("x = " + selectionX + ", y = " + selectionY);
     }
     public void SetSelectionX(int selectionX)
     {

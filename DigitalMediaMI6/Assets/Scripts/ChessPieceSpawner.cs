@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class ChessPieceSpawner
 {
-
-    //public List<GameObject> chessmanPrefabs;
     private ChessPieceFactory factory;
-    public List<GameObject> activeChessPiece;
+    public List<GameObject> activeChessPieces;
 
     public Chessman[,] ChessPieces { set; get; }
     public Chessman selectedChessPiece;
@@ -28,7 +26,7 @@ public class ChessPieceSpawner
         {
             Debug.Log("Factory is null");
         }
-        activeChessPiece = new List<GameObject>();
+        activeChessPieces = new List<GameObject>();
         ChessPieces = new Chessman[8, 8];
 
         SpawnChessPiece(factory.BuildWhiteKing(), 4, 0);
@@ -65,7 +63,7 @@ public class ChessPieceSpawner
         go.transform.SetParent(transform);
         ChessPieces[x, y] = go.GetComponent<Chessman>();
         ChessPieces[x, y].setPosition(x, y);
-        activeChessPiece.Add(go);
+        activeChessPieces.Add(go);
     }
 
     public Vector3 GetTileCenter(int x, int y)
