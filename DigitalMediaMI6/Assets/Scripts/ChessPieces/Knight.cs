@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pferd : Chessman {
+public class Knight : ChessPiece {
 
     public override bool[,] PossibleMove()
     {
@@ -30,7 +30,7 @@ public class Pferd : Chessman {
 
     public void KnightMove(int x, int y, ref bool[,] r)
     {
-        Chessman c;
+        ChessPiece c;
         if (x >= 0 && x < 8 && y >= 0 && y < 8) {
             c = BoardManager.Instance.ChessPieces[x, y];
             if (c == null)

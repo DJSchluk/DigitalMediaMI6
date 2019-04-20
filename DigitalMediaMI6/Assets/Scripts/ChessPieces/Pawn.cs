@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bauer : Chessman
+public class Pawn : ChessPiece
 {
 
     public override bool[,] PossibleMove()
     {
         bool[,] r = new bool[8, 8];
 
-        Chessman c, c2;
+        ChessPiece c, c2;
 
         //weiß
         if (isWhite)

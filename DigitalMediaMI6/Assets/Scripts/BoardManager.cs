@@ -10,10 +10,9 @@ public class BoardManager : MonoBehaviour
 
     private bool[,] allowedMoves { set; get; }
 
-    public Chessman[,] ChessPieces{ set; get; }
+    public ChessPiece[,] ChessPieces { set; get; }
 
     public bool isWhiteTurn = true;
-    
 
     private int selectionX = -1;
     private int selectionY = -1;
@@ -66,13 +65,13 @@ public class BoardManager : MonoBehaviour
     {
         if (allowedMoves[x, y])
         {
-            Chessman c = spawner.ChessPieces[x, y];
+            ChessPiece c = spawner.ChessPieces[x, y];
             if (c != null && c.isWhite != isWhiteTurn)
             {
 
                 //Figur schlagen
                 //Falls König
-                if (c.GetType() == typeof(Koenig))
+                if (c.GetType() == typeof(King))
                 {
                     //end
                     EndGame();
@@ -93,15 +92,15 @@ public class BoardManager : MonoBehaviour
 
 
     private void UpdateSelection()
-    {   
+    {
         if (!Camera.main)
             return;
-            
+
 
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 25.0f, LayerMask.GetMask("ChessPlane")))
         {
-            Debug.Log("Raycast hit result " +(int)hit.point.x +", " + (int)hit.point.z);
+            Debug.Log("Raycast hit result " + (int)hit.point.x + ", " + (int)hit.point.z);
             drawBoard.SetSelectionX((int)hit.point.x);
             drawBoard.SetSelectionY((int)hit.point.z);
             selectionX = (int)hit.point.x;

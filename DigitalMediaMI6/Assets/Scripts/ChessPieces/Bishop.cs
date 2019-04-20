@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Laeufer : Chessman
+public class Bishop : ChessPiece
 {
     public override bool[,] PossibleMove()
     {
         bool[,] r = new bool[8, 8];
 
-        Chessman c;
+        ChessPiece c;
         int i, j;
 
         //Top Left

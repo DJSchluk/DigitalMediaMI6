@@ -7,8 +7,8 @@ public class ChessPieceSpawner
     private ChessPieceFactory factory;
     public List<GameObject> activeChessPieces;
 
-    public Chessman[,] ChessPieces { set; get; }
-    public Chessman selectedChessPiece;
+    public ChessPiece[,] ChessPieces { set; get; }
+    public ChessPiece selectedChessPiece;
 
     private const float TILE_SIZE = 1.0f;
     private const float TILE_OFFSET = 0.5f;
@@ -27,7 +27,7 @@ public class ChessPieceSpawner
             Debug.Log("Factory is null");
         }
         activeChessPieces = new List<GameObject>();
-        ChessPieces = new Chessman[8, 8];
+        ChessPieces = new ChessPiece[8, 8];
 
         SpawnChessPiece(factory.BuildWhiteKing(), 4, 0);
         SpawnChessPiece(factory.BuildWhiteQueen(), 3, 0);
@@ -61,7 +61,7 @@ public class ChessPieceSpawner
     {
         GameObject go = MonoBehaviour.Instantiate(piece, GetTileCenter(x, y), Quaternion.identity) as GameObject;
         go.transform.SetParent(transform);
-        ChessPieces[x, y] = go.GetComponent<Chessman>();
+        ChessPieces[x, y] = go.GetComponent<ChessPiece>();
         ChessPieces[x, y].setPosition(x, y);
         activeChessPieces.Add(go);
     }
