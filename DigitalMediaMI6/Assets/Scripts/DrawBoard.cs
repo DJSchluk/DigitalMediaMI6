@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class DrawBoard
 {
-
-    private int selectionX = -1;
-    private int selectionY = -1;
+    SelectionManager selection = new SelectionManager();
 
     public void UpdateDrawBoard()
     {
+        selection.UpdateSelection();
         DrawChessboard();
+        DrawSelection(selection.GetSelectionX(), selection.GetSelectionY());
+        Debug.Log("UpdateDrawBoard: " + selection.GetSelectionX() + ", " + selection.GetSelectionY());
     }
 
     private void DrawChessboard()
@@ -30,27 +31,20 @@ public class DrawBoard
             }
         }
 
-        //Auswahl darstellen
-        if (selectionX >= 0 && selectionY >= 0)
+    }
+
+    private void DrawSelection(int x, int y)
+    {
+        if (x >= 0 && y >= 0)
         {
+            Debug.Log("DrawSelection: " + x + ", " + y);
             Debug.DrawLine(
-                Vector3.forward * selectionY + Vector3.right * selectionX,
-                Vector3.forward * (selectionY + 1) + Vector3.right * (selectionX + 1), Color.red);
+                Vector3.forward * y + Vector3.right * x,
+                Vector3.forward * (y + 1) + Vector3.right * (x + 1), Color.red);
 
             Debug.DrawLine(
-                Vector3.forward * (selectionY + 1) + Vector3.right * selectionX,
-                Vector3.forward * selectionY + Vector3.right * (selectionX + 1), Color.red);
+                Vector3.forward * (y + 1) + Vector3.right * x,
+                Vector3.forward * y + Vector3.right * (x + 1), Color.red);
         }
-        //Debug.Log("x = " + selectionX + ", y = " + selectionY);
-    }
-    public void SetSelectionX(int selectionX)
-    {
-        this.selectionX = selectionX;
-    }
-
-
-    public void SetSelectionY(int selectionY)
-    {
-        this.selectionY = selectionY;
     }
 }

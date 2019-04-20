@@ -14,15 +14,15 @@ public class BoardManager : MonoBehaviour
 
     public bool isWhiteTurn = true;
 
-    private int selectionX = -1;
-    private int selectionY = -1;
-
     ChessPieceSpawner spawner;
     DrawBoard drawBoard;
+
+    SelectionManager selection;
 
     private void Start()
     {
         Instance = this;
+        selection = new SelectionManager();
         drawBoard = new DrawBoard();
         spawner = new ChessPieceSpawner(this.transform);
         spawner.SpawnAllPieces();
@@ -31,19 +31,19 @@ public class BoardManager : MonoBehaviour
     private void Update()
     {
         drawBoard.UpdateDrawBoard();
-        UpdateSelection();
+        selection.UpdateSelection();
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (selectionX >= 0 && selectionY >= 0)
+            if (selection.GetSelectionX() >= 0 && selection.GetSelectionY() >= 0)
             {
                 if (spawner.selectedChessPiece == null)
                 {
-                    SelectChessPiece(selectionX, selectionY);
+                    SelectChessPiece(selection.GetSelectionX(), selection.GetSelectionY());
                 }
                 else
                 {
-                    MoveChessPiece(selectionX, selectionY);
+                    MoveChessPiece(selection.GetSelectionX(), selection.GetSelectionY());
                 }
             }
         }
@@ -89,45 +89,6 @@ public class BoardManager : MonoBehaviour
         BoardHighlights.Instance.HideHighlights();
         spawner.selectedChessPiece = null;
     }
-
-
-    private void UpdateSelection()
-    {
-        if (!Camera.main)
-            return;
-
-
-        RaycastHit hit;
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 25.0f, LayerMask.GetMask("ChessPlane")))
-        {
-            Debug.Log("Raycast hit result " + (int)hit.point.x + ", " + (int)hit.point.z);
-            drawBoard.SetSelectionX((int)hit.point.x);
-            drawBoard.SetSelectionY((int)hit.point.z);
-            selectionX = (int)hit.point.x;
-            selectionY = (int)hit.point.z;
-            Debug.Log("Selection variable content " + selectionX + ", " + selectionY);
-        }
-        else
-        {
-            drawBoard.SetSelectionX(-1);
-            drawBoard.SetSelectionY(-1);
-            selectionX = -1;
-            selectionY = -1;
-        }
-
-        //Debug.Log("x = " + GetSelectionX() + ", y = " + GetSelectionY());
-    }
-
-    public float GetSelectionX()
-    {
-        return selectionX;
-    }
-
-    public float GetSelectionY()
-    {
-        return selectionY;
-    }
-
 
     private void EndGame()
     {
