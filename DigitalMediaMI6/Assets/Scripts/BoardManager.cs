@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(FigurFactory))]
+[RequireComponent(typeof(ChessPieceFactory))]
 
 public class BoardManager : MonoBehaviour
 {
     public static BoardManager Instance { set; get; }
 
-    public List<GameObject> chessmanPrefabs;
+    //public List<GameObject> chessPiecePrefabs;
     private bool[,] allowedMoves { set; get; }
 
-    public Chessman[,] Chessmans { set; get; }
+    public Chessman[,] ChessPieces{ set; get; }
 
     public bool isWhiteTurn = true;
     
@@ -19,15 +19,15 @@ public class BoardManager : MonoBehaviour
     private int selectionX = -1;
     private int selectionY = -1;
 
-    SpawnFigures sf;
+    ChessPieceSpawner spawner;
     DrawBoard DrawBoard;
 
     private void Start()
     {
         Instance = this;
         DrawBoard = new DrawBoard();
-        sf = new SpawnFigures(this.transform);
-        sf.SpawnAllChessmans();
+        spawner = new ChessPieceSpawner(this.transform);
+        spawner.SpawnAllPieces();
     }
 
     private void Update()
@@ -39,7 +39,7 @@ public class BoardManager : MonoBehaviour
         {
             if (selectionX >= 0 && selectionY >= 0)
             {
-                if (sf.selectedChessman == null)
+                if (spawner.selectedChessPiece == null)
                 {
                     SelectChessman(selectionX, selectionY);
                 }
@@ -53,13 +53,13 @@ public class BoardManager : MonoBehaviour
 
     private void SelectChessman(int x, int y)
     {
-        if (sf.Chessmans[x, y] == null)
+        if (spawner.ChessPieces[x, y] == null)
             return;
 
-        if (sf.Chessmans[x, y].isWhite != isWhiteTurn)
+        if (spawner.ChessPieces[x, y].isWhite != isWhiteTurn)
             return;
 
-        sf.selectedChessman = sf.Chessmans[x, y];
+        spawner.selectedChessPiece = spawner.ChessPieces[x, y];
         BoardHighlights.Instance.HighLightAllowedMoves(allowedMoves);
     }
 
@@ -67,7 +67,7 @@ public class BoardManager : MonoBehaviour
     {
         if (allowedMoves[x, y])
         {
-            Chessman c = sf.Chessmans[x, y];
+            Chessman c = spawner.ChessPieces[x, y];
             if (c != null && c.isWhite != isWhiteTurn)
             {
 
@@ -79,17 +79,17 @@ public class BoardManager : MonoBehaviour
                     EndGame();
                     return;
                 }
-                sf.activeChessman.Remove(c.gameObject);
+                spawner.activeChessPiece.Remove(c.gameObject);
                 Destroy(c.gameObject);
             }
-            sf.Chessmans[sf.selectedChessman.CurrentX, sf.selectedChessman.CurrentY] = null;
-            sf.selectedChessman.transform.position = sf.GetTileCenter(x, y);
-            sf.selectedChessman.setPosition(x, y);
-            sf.Chessmans[x, y] = sf.selectedChessman;
+            spawner.ChessPieces[spawner.selectedChessPiece.CurrentX, spawner.selectedChessPiece.CurrentY] = null;
+            spawner.selectedChessPiece.transform.position = spawner.GetTileCenter(x, y);
+            spawner.selectedChessPiece.setPosition(x, y);
+            spawner.ChessPieces[x, y] = spawner.selectedChessPiece;
             isWhiteTurn = !isWhiteTurn;
         }
         BoardHighlights.Instance.HideHighlights();
-        sf.selectedChessman = null;
+        spawner.selectedChessPiece = null;
     }
 
 
@@ -129,14 +129,12 @@ public class BoardManager : MonoBehaviour
         else
             Debug.Log("Black team wins");
 
-        foreach (GameObject go in sf.activeChessman)
+        foreach (GameObject go in spawner.activeChessPiece)
             Destroy(go);
 
         isWhiteTurn = true;
         BoardHighlights.Instance.HideHighlights();
-        sf.SpawnAllChessmans();
-
-
+        spawner.SpawnAllPieces();
 
     }
 

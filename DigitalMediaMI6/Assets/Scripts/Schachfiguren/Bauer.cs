@@ -17,7 +17,7 @@ public class Bauer : Chessman
             //diagonal links
             if (CurrentX != 0 && CurrentY != 7)
             {
-                c = BoardManager.Instance.Chessmans[CurrentX - 1, CurrentY + 1];
+                c = BoardManager.Instance.ChessPieces[CurrentX - 1, CurrentY + 1];
                 if (c != null && !c.isWhite)
                 {
                     r[CurrentX - 1, CurrentY + 1] = true;
@@ -26,7 +26,7 @@ public class Bauer : Chessman
             //diagonal rechts
             if (CurrentX != 7 && CurrentY != 7)
             {
-                c = BoardManager.Instance.Chessmans[CurrentX + 1, CurrentY + 1];
+                c = BoardManager.Instance.ChessPieces[CurrentX + 1, CurrentY + 1];
                 if (c != null && !c.isWhite)
                 {
                     r[CurrentX + 1, CurrentY + 1] = true;
@@ -35,7 +35,7 @@ public class Bauer : Chessman
             //gerade
             if (CurrentY != 7)
             {
-                c = BoardManager.Instance.Chessmans[CurrentX, CurrentY + 1];
+                c = BoardManager.Instance.ChessPieces[CurrentX, CurrentY + 1];
                 if (c == null)
                 {
                     r[CurrentX, CurrentY + 1] = true;
@@ -44,8 +44,8 @@ public class Bauer : Chessman
             //gerade erster Zug
             if (CurrentY == 1)
             {
-                c = BoardManager.Instance.Chessmans[CurrentX, CurrentY + 1];
-                c2 = BoardManager.Instance.Chessmans[CurrentX, CurrentY + 2];
+                c = BoardManager.Instance.ChessPieces[CurrentX, CurrentY + 1];
+                c2 = BoardManager.Instance.ChessPieces[CurrentX, CurrentY + 2];
                 if (c == null && c2 == null)
                 {
                     r[CurrentX, CurrentY + 2] = true;
@@ -58,7 +58,7 @@ public class Bauer : Chessman
             //diagonal links
             if (CurrentX != 0 && CurrentY != 0)
             {
-               c = BoardManager.Instance.Chessmans[CurrentX - 1, CurrentY - 1];
+               c = BoardManager.Instance.ChessPieces[CurrentX - 1, CurrentY - 1];
                 if (c != null && c.isWhite)
                 {
                     r[CurrentX - 1, CurrentY - 1] = true;
@@ -67,7 +67,7 @@ public class Bauer : Chessman
             //diagonal rechts
             if (CurrentX != 7 && CurrentY != 0)
             {
-                c = BoardManager.Instance.Chessmans[CurrentX + 1, CurrentY - 1];
+                c = BoardManager.Instance.ChessPieces[CurrentX + 1, CurrentY - 1];
                 if (c != null && c.isWhite)
                 {
                     r[CurrentX + 1, CurrentY + 1] = true;
@@ -76,7 +76,7 @@ public class Bauer : Chessman
             //gerade
             if (CurrentY != 0)
             {
-                c = BoardManager.Instance.Chessmans[CurrentX, CurrentY -1];
+                c = BoardManager.Instance.ChessPieces[CurrentX, CurrentY -1];
                 if (c == null)
                 {
                     r[CurrentX, CurrentY - 1] = true;
@@ -85,8 +85,8 @@ public class Bauer : Chessman
             //gerade erster Zug
             if (CurrentY == 6)
             {
-                c = BoardManager.Instance.Chessmans[CurrentX, CurrentY - 1];
-                c2 = BoardManager.Instance.Chessmans[CurrentX, CurrentY - 2];
+                c = BoardManager.Instance.ChessPieces[CurrentX, CurrentY - 1];
+                c2 = BoardManager.Instance.ChessPieces[CurrentX, CurrentY - 2];
                 if (c == null && c2 == null)
                 {
                     r[CurrentX, CurrentY - 2] = true;

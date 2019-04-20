@@ -17,7 +17,7 @@ public class Turm : Chessman {
                 break;
             }
 
-            c = BoardManager.Instance.Chessmans[i, CurrentY];
+            c = BoardManager.Instance.ChessPieces[i, CurrentY];
             if(c==null){
                 r[i, CurrentY] = true;
             }
@@ -38,7 +38,7 @@ public class Turm : Chessman {
                 break;
             }
 
-            c = BoardManager.Instance.Chessmans[i, CurrentY];
+            c = BoardManager.Instance.ChessPieces[i, CurrentY];
             if(c==null){
                 r[i, CurrentY] = true;
             }
@@ -59,7 +59,7 @@ public class Turm : Chessman {
                 break;
             }
 
-            c = BoardManager.Instance.Chessmans[CurrentX, i];
+            c = BoardManager.Instance.ChessPieces[CurrentX, i];
             if(c==null){
                 r[CurrentX,i] = true;
             }
@@ -80,7 +80,7 @@ public class Turm : Chessman {
                 break;
             }
 
-            c = BoardManager.Instance.Chessmans[CurrentX, i];
+            c = BoardManager.Instance.ChessPieces[CurrentX, i];
             if(c==null){
                 r[CurrentX,i] = true;
             }

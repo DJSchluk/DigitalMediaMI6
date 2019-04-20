@@ -22,7 +22,7 @@ public class Laeufer : Chessman
                 break;
 
 
-            c = BoardManager.Instance.Chessmans[i, j];
+            c = BoardManager.Instance.ChessPieces[i, j];
             if (c == null)
                 r[i, j] = true;
 
@@ -46,7 +46,7 @@ public class Laeufer : Chessman
                 break;
 
 
-            c = BoardManager.Instance.Chessmans[i, j];
+            c = BoardManager.Instance.ChessPieces[i, j];
             if (c == null)
                 r[i, j] = true;
 
@@ -70,7 +70,7 @@ public class Laeufer : Chessman
                 break;
 
 
-            c = BoardManager.Instance.Chessmans[i, j];
+            c = BoardManager.Instance.ChessPieces[i, j];
             if (c == null)
                 r[i, j] = true;
 
@@ -94,7 +94,7 @@ public class Laeufer : Chessman
                 break;
 
 
-            c = BoardManager.Instance.Chessmans[i, j];
+            c = BoardManager.Instance.ChessPieces[i, j];
             if (c == null)
                 r[i, j] = true;
 

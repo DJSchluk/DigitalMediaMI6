@@ -1,9 +1,9 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-public class FigurFactory : MonoBehaviour
+public class ChessPieceFactory : MonoBehaviour
 {
-    private static FigurFactory instance;
+    private static ChessPieceFactory instance;
     [SerializeField]
     private GameObject pawnWhitePrefab;
     [SerializeField]
@@ -31,28 +31,20 @@ public class FigurFactory : MonoBehaviour
     [SerializeField]
 
     private void Awake()
-
-    {   
-        if(pawnWhitePrefab == null){
-            Debug.Log("Weisser Bauer Prefab is null");
-        }
-        else {
-            Debug.Log("Geht");
-        }
+    {
         if (instance == null)
             instance = this;
         else
             this.enabled = false;
     }
 
-    public static FigurFactory GetInstance()
+    public static ChessPieceFactory GetInstance()
     {
         if (instance == null)
         {
-            GameObject gameobject = new GameObject("FigurFactory");
-            instance = gameobject.AddComponent<FigurFactory>();
+            GameObject gameobject = new GameObject("ChessPieceFactory");
+            instance = gameobject.AddComponent<ChessPieceFactory>();
         }
-
         return instance;
     }
 
