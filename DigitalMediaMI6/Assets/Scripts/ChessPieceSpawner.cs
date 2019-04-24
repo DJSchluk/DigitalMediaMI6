@@ -8,7 +8,6 @@ public class ChessPieceSpawner
     public List<GameObject> activeChessPieces;
 
     public ChessPiece[,] ChessPieces { set; get; }
-    public ChessPiece selectedChessPiece;
 
     private const float TILE_SIZE = 1.0f;
     private const float TILE_OFFSET = 0.5f;

@@ -19,6 +19,7 @@ public abstract class ChessPiece : MonoBehaviour {
 
     public virtual bool[,] PossibleMove()
     {
+        
         return new bool[8,8];
     }
 }
