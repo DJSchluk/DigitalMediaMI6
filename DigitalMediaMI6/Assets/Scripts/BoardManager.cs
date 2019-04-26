@@ -10,8 +10,6 @@ public class BoardManager : MonoBehaviour
 
     private bool[,] allowedMoves { set; get; }
 
-    public ChessPiece[,] ChessPieces { set; get; }
-
     private ChessPiece selectedChessPiece;
 
     public bool isWhiteTurn = true;
@@ -37,10 +35,10 @@ public class BoardManager : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("Klick!");
+            //Debug.Log("Klick!");
             if (selection.GetSelectionX() >= 0 && selection.GetSelectionY() >= 0)
             {
-                Debug.Log("x >= 0 && y >= 0");
+                //Debug.Log("x >= 0 && y >= 0");
                 if (selectedChessPiece == null)
                 {
                     SelectChessPiece(selection.GetSelectionX(), selection.GetSelectionY());
@@ -68,7 +66,7 @@ public class BoardManager : MonoBehaviour
             return;
         }
         
-        allowedMoves = ChessPieces[x,y].PossibleMove();
+        allowedMoves = spawner.ChessPieces[x,y].PossibleMove();
         selectedChessPiece = spawner.ChessPieces[x, y];
         Debug.Log(selectedChessPiece.CurrentX + ", " + selectedChessPiece.CurrentY);
         BoardHighlights.Instance.HighLightAllowedMoves(allowedMoves);
@@ -79,7 +77,7 @@ public class BoardManager : MonoBehaviour
         //ALLOWED MOVES MUSS GEFIXT WERDEN
         if (allowedMoves[x, y] == true)
         {
-            /*ChessPiece c = spawner.ChessPieces[x, y];
+            ChessPiece c = spawner.ChessPieces[x, y];
             if (c != null && c.isWhite != isWhiteTurn)
             {
 
@@ -93,7 +91,7 @@ public class BoardManager : MonoBehaviour
                 }
                 spawner.activeChessPieces.Remove(c.gameObject);
                 Destroy(c.gameObject);
-            }*/
+            }
             spawner.ChessPieces[selectedChessPiece.CurrentX, selectedChessPiece.CurrentY] = null;
             selectedChessPiece.transform.position = spawner.GetTileCenter(x, y);
             selectedChessPiece.setPosition(x, y);
@@ -119,5 +117,4 @@ public class BoardManager : MonoBehaviour
         spawner.SpawnAllPieces();
 
     }
-
 }

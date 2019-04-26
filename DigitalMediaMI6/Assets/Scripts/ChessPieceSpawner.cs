@@ -62,6 +62,7 @@ public class ChessPieceSpawner
         go.transform.SetParent(transform);
         ChessPieces[x, y] = go.GetComponent<ChessPiece>();
         ChessPieces[x, y].setPosition(x, y);
+        ChessPieces[x, y].SetSpawner(this);
         activeChessPieces.Add(go);
     }
 

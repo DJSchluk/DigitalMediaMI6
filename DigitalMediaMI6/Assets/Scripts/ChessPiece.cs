@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ChessPiece : MonoBehaviour {
+public abstract class ChessPiece : MonoBehaviour
+{
 
     public int CurrentX { set; get; }
     public int CurrentY { set; get; }
 
     public bool isWhite;
-
+    protected ChessPieceSpawner spawner;
 
     public void setPosition(int x, int y)
     {
@@ -19,8 +20,13 @@ public abstract class ChessPiece : MonoBehaviour {
 
     public virtual bool[,] PossibleMove()
     {
-       
-        return new bool[8,8];
+
+        return new bool[8, 8];
+    }
+
+    public void SetSpawner(ChessPieceSpawner _spawner)
+    {
+        spawner = _spawner;
     }
 }
 

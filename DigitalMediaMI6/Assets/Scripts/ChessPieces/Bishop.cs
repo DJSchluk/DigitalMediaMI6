@@ -22,7 +22,7 @@ public class Bishop : ChessPiece
                 break;
 
 
-            c = BoardManager.Instance.ChessPieces[i, j];
+            c = spawner.ChessPieces[i, j];
             if (c == null)
                 r[i, j] = true;
 
@@ -46,7 +46,7 @@ public class Bishop : ChessPiece
                 break;
 
 
-            c = BoardManager.Instance.ChessPieces[i, j];
+            c = spawner.ChessPieces[i, j];
             if (c == null)
                 r[i, j] = true;
 
@@ -70,7 +70,7 @@ public class Bishop : ChessPiece
                 break;
 
 
-            c = BoardManager.Instance.ChessPieces[i, j];
+            c = spawner.ChessPieces[i, j];
             if (c == null)
                 r[i, j] = true;
 
@@ -94,7 +94,7 @@ public class Bishop : ChessPiece
                 break;
 
 
-            c = BoardManager.Instance.ChessPieces[i, j];
+            c = spawner.ChessPieces[i, j];
             if (c == null)
                 r[i, j] = true;
 
