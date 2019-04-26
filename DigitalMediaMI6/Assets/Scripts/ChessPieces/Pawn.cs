@@ -9,10 +9,12 @@ public class Pawn : ChessPiece
     {
         bool[,] r = new bool[8, 8];
 
-        ChessPiece c, c2;
+        r[3,3] = true;
+
+        //ChessPiece c, c2;
 
         //weiß
-        if (isWhite)
+       /* if (isWhite)
         {
             //diagonal links
             if (CurrentX != 0 && CurrentY != 7)
@@ -93,7 +95,7 @@ public class Pawn : ChessPiece
                 }
             }
 
-        }
+        } */
         return r;
     }
 

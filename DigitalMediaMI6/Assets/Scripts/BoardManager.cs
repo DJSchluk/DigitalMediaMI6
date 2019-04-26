@@ -67,19 +67,19 @@ public class BoardManager : MonoBehaviour
             Debug.Log("Nicht am Zug");
             return;
         }
-
+        
+        allowedMoves = ChessPieces[x,y].PossibleMove();
         selectedChessPiece = spawner.ChessPieces[x, y];
-        Debug.Log(selectedChessPiece);
-        //BoardHighlights.Instance.HighLightAllowedMoves(allowedMoves);
+        Debug.Log(selectedChessPiece.CurrentX + ", " + selectedChessPiece.CurrentY);
+        BoardHighlights.Instance.HighLightAllowedMoves(allowedMoves);
     }
 
     private void MoveChessPiece(int x, int y)
     {
         //ALLOWED MOVES MUSS GEFIXT WERDEN
-        //if (allowedMoves[x, y])
-        if(true)
+        if (allowedMoves[x, y] == true)
         {
-            ChessPiece c = spawner.ChessPieces[x, y];
+            /*ChessPiece c = spawner.ChessPieces[x, y];
             if (c != null && c.isWhite != isWhiteTurn)
             {
 
@@ -93,14 +93,14 @@ public class BoardManager : MonoBehaviour
                 }
                 spawner.activeChessPieces.Remove(c.gameObject);
                 Destroy(c.gameObject);
-            }
+            }*/
             spawner.ChessPieces[selectedChessPiece.CurrentX, selectedChessPiece.CurrentY] = null;
             selectedChessPiece.transform.position = spawner.GetTileCenter(x, y);
             selectedChessPiece.setPosition(x, y);
             spawner.ChessPieces[x, y] = selectedChessPiece;
             isWhiteTurn = !isWhiteTurn;
         }
-        //BoardHighlights.Instance.HideHighlights();
+        BoardHighlights.Instance.HideHighlights();
         selectedChessPiece = null;
     }
 
