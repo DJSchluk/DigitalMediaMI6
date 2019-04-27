@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(ChessPieceFactory))]
+[RequireComponent (typeof (ChessPieceFactory))]
 
-public class BoardManager : MonoBehaviour
-{
+public class BoardManager : MonoBehaviour {
     public static BoardManager Instance { set; get; }
 
-    private bool[,] allowedMoves { set; get; }
+    private bool[, ] allowedMoves { set; get; }
 
-    public ChessPiece[,] ChessPieces { set; get; }
+    public ChessPiece[, ] ChessPieces { set; get; }
 
     private ChessPiece selectedChessPiece;
 
@@ -21,102 +20,88 @@ public class BoardManager : MonoBehaviour
 
     SelectionManager selection;
 
-    private void Start()
-    {
+    private void Start () {
         Instance = this;
-        selection = new SelectionManager();
-        drawBoard = new DrawBoard();
-        spawner = new ChessPieceSpawner(this.transform);
-        spawner.SpawnAllPieces();
+        selection = new SelectionManager ();
+        drawBoard = new DrawBoard ();
+        spawner = new ChessPieceSpawner (this.transform);
+        spawner.SpawnAllPieces ();
     }
 
-    private void Update()
-    {
-        drawBoard.UpdateDrawBoard();
-        selection.UpdateSelection();
+    private void Update () {
+        drawBoard.UpdateDrawBoard ();
+        selection.UpdateSelection ();
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            Debug.Log("Klick!");
-            if (selection.GetSelectionX() >= 0 && selection.GetSelectionY() >= 0)
-            {
-                Debug.Log("x >= 0 && y >= 0");
-                if (selectedChessPiece == null)
-                {
-                    SelectChessPiece(selection.GetSelectionX(), selection.GetSelectionY());
-                    Debug.Log("Ausgewähltes Feld: " + selection.GetSelectionX() + ", " + selection.GetSelectionY());
+        if (Input.GetMouseButtonDown (0)) {
+            //    Debug.Log("Klick!");
+            if (selection.GetSelectionX () >= 0 && selection.GetSelectionY () >= 0) {
+                //        Debug.Log("x >= 0 && y >= 0");
+                if (selectedChessPiece == null) {
+                    SelectChessPiece (selection.GetSelectionX (), selection.GetSelectionY ());
+                    //            Debug.Log("Ausgewähltes Feld: " + selection.GetSelectionX() + ", " + selection.GetSelectionY());
+                } else {
+                    MoveChessPiece (selection.GetSelectionX (), selection.GetSelectionY ());
+
                 }
-                else
-                {
-                    MoveChessPiece(selection.GetSelectionX(), selection.GetSelectionY());
-
-                } 
             }
         }
     }
 
-    private void SelectChessPiece(int x, int y)
-    {
-        if (spawner.ChessPieces[x, y] == null){
-            Debug.Log("Keine Figur");
+    private void SelectChessPiece (int x, int y) {
+        if (spawner.ChessPieces[x, y] == null) {
+            Debug.Log ("Keine Figur");
             return;
         }
-            
 
-        if (spawner.ChessPieces[x, y].isWhite != isWhiteTurn){
-            Debug.Log("Nicht am Zug");
+        if (spawner.ChessPieces[x, y].isWhite != isWhiteTurn) {
+            Debug.Log ("Nicht am Zug");
             return;
         }
-        
-        allowedMoves = ChessPieces[x,y].PossibleMove();
+
+        allowedMoves = ChessPieces[x, y].PossibleMove ();
         selectedChessPiece = spawner.ChessPieces[x, y];
-        Debug.Log(selectedChessPiece.CurrentX + ", " + selectedChessPiece.CurrentY);
-        BoardHighlights.Instance.HighLightAllowedMoves(allowedMoves);
+        Debug.Log (selectedChessPiece.CurrentX + ", " + selectedChessPiece.CurrentY);
+        BoardHighlights.Instance.HighLightAllowedMoves (allowedMoves);
     }
 
-    private void MoveChessPiece(int x, int y)
-    {
+    private void MoveChessPiece (int x, int y) {
         //ALLOWED MOVES MUSS GEFIXT WERDEN
-        if (allowedMoves[x, y] == true)
-        {
-            /*ChessPiece c = spawner.ChessPieces[x, y];
-            if (c != null && c.isWhite != isWhiteTurn)
-            {
+        if (allowedMoves[x, y] == true) {
+            ChessPiece c = spawner.ChessPieces[x, y];
+            if (c != null && c.isWhite != isWhiteTurn) {
 
                 //Figur schlagen
                 //Falls König
-                if (c.GetType() == typeof(King))
-                {
+                if (c.GetType () == typeof (King)) {
                     //end
-                    EndGame();
+                    EndGame ();
                     return;
                 }
-                spawner.activeChessPieces.Remove(c.gameObject);
-                Destroy(c.gameObject);
-            }*/
+                spawner.activeChessPieces.Remove (c.gameObject);
+                Destroy (c.gameObject);
+            }
             spawner.ChessPieces[selectedChessPiece.CurrentX, selectedChessPiece.CurrentY] = null;
-            selectedChessPiece.transform.position = spawner.GetTileCenter(x, y);
-            selectedChessPiece.setPosition(x, y);
+            selectedChessPiece.transform.position = spawner.GetTileCenter (x, y);
+            selectedChessPiece.setPosition (x, y);
             spawner.ChessPieces[x, y] = selectedChessPiece;
             isWhiteTurn = !isWhiteTurn;
         }
-        BoardHighlights.Instance.HideHighlights();
+        BoardHighlights.Instance.HideHighlights ();
         selectedChessPiece = null;
     }
 
-    private void EndGame()
-    {
+    private void EndGame () {
         if (isWhiteTurn)
-            Debug.Log("White team wins");
+            Debug.Log ("White team wins");
         else
-            Debug.Log("Black team wins");
+            Debug.Log ("Black team wins");
 
         foreach (GameObject go in spawner.activeChessPieces)
-            Destroy(go);
+            Destroy (go);
 
         isWhiteTurn = true;
-        BoardHighlights.Instance.HideHighlights();
-        spawner.SpawnAllPieces();
+        BoardHighlights.Instance.HideHighlights ();
+        spawner.SpawnAllPieces ();
 
     }
 

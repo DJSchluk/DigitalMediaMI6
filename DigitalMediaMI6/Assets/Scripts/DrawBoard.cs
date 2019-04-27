@@ -11,7 +11,7 @@ public class DrawBoard
         selection.UpdateSelection();
         DrawChessboard();
         DrawSelection(selection.GetSelectionX(), selection.GetSelectionY());
-        Debug.Log("UpdateDrawBoard: " + selection.GetSelectionX() + ", " + selection.GetSelectionY());
+//        Debug.Log("UpdateDrawBoard: " + selection.GetSelectionX() + ", " + selection.GetSelectionY());
     }
 
     private void DrawChessboard()
@@ -37,7 +37,7 @@ public class DrawBoard
     {
         if (x >= 0 && y >= 0)
         {
-            Debug.Log("DrawSelection: " + x + ", " + y);
+//            Debug.Log("DrawSelection: " + x + ", " + y);
             Debug.DrawLine(
                 Vector3.forward * y + Vector3.right * x,
                 Vector3.forward * (y + 1) + Vector3.right * (x + 1), Color.red);
