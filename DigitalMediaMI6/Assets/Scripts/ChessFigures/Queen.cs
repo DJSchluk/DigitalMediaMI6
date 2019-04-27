@@ -22,7 +22,7 @@ public class Queen : ChessPiece {
                 break;
             }
 
-            c = BoardManager.Instance.ChessPieces[i, CurrentY];
+            c = spawner.ChessPieces[i, CurrentY];
             if (c == null)
             {
                 r[i, CurrentY] = true;
@@ -48,7 +48,7 @@ public class Queen : ChessPiece {
                 break;
             }
 
-            c = BoardManager.Instance.ChessPieces[i, CurrentY];
+            c = spawner.ChessPieces[i, CurrentY];
             if (c == null)
             {
                 r[i, CurrentY] = true;
@@ -74,7 +74,7 @@ public class Queen : ChessPiece {
                 break;
             }
 
-            c = BoardManager.Instance.ChessPieces[CurrentX, i];
+            c = spawner.ChessPieces[CurrentX, i];
             if (c == null)
             {
                 r[CurrentX, i] = true;
@@ -100,7 +100,7 @@ public class Queen : ChessPiece {
                 break;
             }
 
-            c = BoardManager.Instance.ChessPieces[CurrentX, i];
+            c = spawner.ChessPieces[CurrentX, i];
             if (c == null)
             {
                 r[CurrentX, i] = true;
@@ -130,7 +130,7 @@ public class Queen : ChessPiece {
                 break;
 
 
-            c = BoardManager.Instance.ChessPieces[i, j];
+            c = spawner.ChessPieces[i, j];
             if (c == null)
                 r[i, j] = true;
 
@@ -154,7 +154,7 @@ public class Queen : ChessPiece {
                 break;
 
 
-            c = BoardManager.Instance.ChessPieces[i, j];
+            c = spawner.ChessPieces[i, j];
             if (c == null)
                 r[i, j] = true;
 
@@ -178,7 +178,7 @@ public class Queen : ChessPiece {
                 break;
 
 
-            c = BoardManager.Instance.ChessPieces[i, j];
+            c = spawner.ChessPieces[i, j];
             if (c == null)
                 r[i, j] = true;
 
@@ -202,7 +202,7 @@ public class Queen : ChessPiece {
                 break;
 
 
-            c = BoardManager.Instance.ChessPieces[i, j];
+            c = spawner.ChessPieces[i, j];
             if (c == null)
                 r[i, j] = true;
 

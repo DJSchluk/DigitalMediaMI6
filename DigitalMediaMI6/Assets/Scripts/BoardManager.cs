@@ -9,8 +9,11 @@ public class BoardManager : MonoBehaviour {
 
     private bool[, ] allowedMoves { set; get; }
 
+<<<<<<< HEAD
     public ChessPiece[, ] ChessPieces { set; get; }
 
+=======
+>>>>>>> 8673b91f952f76853e90e950749f5c8ca1f3e496
     private ChessPiece selectedChessPiece;
 
     public bool isWhiteTurn = true;
@@ -28,6 +31,7 @@ public class BoardManager : MonoBehaviour {
         spawner.SpawnAllPieces ();
     }
 
+<<<<<<< HEAD
     private void Update () {
         drawBoard.UpdateDrawBoard ();
         selection.UpdateSelection ();
@@ -41,6 +45,27 @@ public class BoardManager : MonoBehaviour {
                     //            Debug.Log("Ausgewähltes Feld: " + selection.GetSelectionX() + ", " + selection.GetSelectionY());
                 } else {
                     MoveChessPiece (selection.GetSelectionX (), selection.GetSelectionY ());
+=======
+    private void Update()
+    {
+        drawBoard.UpdateDrawBoard();
+        selection.UpdateSelection();
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            //Debug.Log("Klick!");
+            if (selection.GetSelectionX() >= 0 && selection.GetSelectionY() >= 0)
+            {
+                //Debug.Log("x >= 0 && y >= 0");
+                if (selectedChessPiece == null)
+                {
+                    SelectChessPiece(selection.GetSelectionX(), selection.GetSelectionY());
+                    Debug.Log("Ausgewähltes Feld: " + selection.GetSelectionX() + ", " + selection.GetSelectionY());
+                }
+                else
+                {
+                    MoveChessPiece(selection.GetSelectionX(), selection.GetSelectionY());
+>>>>>>> 8673b91f952f76853e90e950749f5c8ca1f3e496
 
                 }
             }
@@ -57,8 +82,13 @@ public class BoardManager : MonoBehaviour {
             Debug.Log ("Nicht am Zug");
             return;
         }
+<<<<<<< HEAD
 
         allowedMoves = ChessPieces[x, y].PossibleMove ();
+=======
+        
+        allowedMoves = spawner.ChessPieces[x,y].PossibleMove();
+>>>>>>> 8673b91f952f76853e90e950749f5c8ca1f3e496
         selectedChessPiece = spawner.ChessPieces[x, y];
         Debug.Log (selectedChessPiece.CurrentX + ", " + selectedChessPiece.CurrentY);
         BoardHighlights.Instance.HighLightAllowedMoves (allowedMoves);
@@ -66,9 +96,17 @@ public class BoardManager : MonoBehaviour {
 
     private void MoveChessPiece (int x, int y) {
         //ALLOWED MOVES MUSS GEFIXT WERDEN
+<<<<<<< HEAD
         if (allowedMoves[x, y] == true) {
             ChessPiece c = spawner.ChessPieces[x, y];
             if (c != null && c.isWhite != isWhiteTurn) {
+=======
+        if (allowedMoves[x, y] == true)
+        {
+            ChessPiece c = spawner.ChessPieces[x, y];
+            if (c != null && c.isWhite != isWhiteTurn)
+            {
+>>>>>>> 8673b91f952f76853e90e950749f5c8ca1f3e496
 
                 //Figur schlagen
                 //Falls König
@@ -77,8 +115,13 @@ public class BoardManager : MonoBehaviour {
                     EndGame ();
                     return;
                 }
+<<<<<<< HEAD
                 spawner.activeChessPieces.Remove (c.gameObject);
                 Destroy (c.gameObject);
+=======
+                spawner.activeChessPieces.Remove(c.gameObject);
+                Destroy(c.gameObject);
+>>>>>>> 8673b91f952f76853e90e950749f5c8ca1f3e496
             }
             spawner.ChessPieces[selectedChessPiece.CurrentX, selectedChessPiece.CurrentY] = null;
             selectedChessPiece.transform.position = spawner.GetTileCenter (x, y);
@@ -104,5 +147,9 @@ public class BoardManager : MonoBehaviour {
         spawner.SpawnAllPieces ();
 
     }
+<<<<<<< HEAD
 
 }
+=======
+}
+>>>>>>> 8673b91f952f76853e90e950749f5c8ca1f3e496

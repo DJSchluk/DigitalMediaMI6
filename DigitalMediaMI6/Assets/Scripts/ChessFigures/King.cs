@@ -20,7 +20,7 @@ public class King : ChessPiece
             {
                 if (i >= 0 && i < 8)
                 {
-                    c = BoardManager.Instance.ChessPieces[i, j];
+                    c = spawner.ChessPieces[i, j];
                     if (c == null)
                         r[i, j] = true;
                     else if (isWhite != c.isWhite)
@@ -40,7 +40,7 @@ public class King : ChessPiece
             {
                 if (i >= 0 && i < 8)
                 {
-                    c = BoardManager.Instance.ChessPieces[i, j];
+                    c = spawner.ChessPieces[i, j];
                     if (c == null)
                         r[i, j] = true;
                     else if (isWhite != c.isWhite)
@@ -54,7 +54,7 @@ public class King : ChessPiece
         //Middle Left
         if (CurrentX != 0)
         {
-            c = BoardManager.Instance.ChessPieces[CurrentX - 1, CurrentY];
+            c = spawner.ChessPieces[CurrentX - 1, CurrentY];
             if (c == null)
                 r[CurrentX - 1, CurrentY] = true;
             else if (isWhite != c.isWhite)
@@ -66,7 +66,7 @@ public class King : ChessPiece
         //Middle Right
         if (CurrentX != 7)
         {
-            c = BoardManager.Instance.ChessPieces[CurrentX + 1, CurrentY];
+            c = spawner.ChessPieces[CurrentX + 1, CurrentY];
             if (c == null)
                 r[CurrentX + 1, CurrentY] = true;
             else if (isWhite != c.isWhite)
