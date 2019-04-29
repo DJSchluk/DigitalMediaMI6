@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bishop : ChessPiece
-{
-    public override bool[,] PossibleMove()
-    {
-        bool[,] r = new bool[8, 8];
+public class Bishop : ChessPiece {
+    public override bool[, ] PossibleMove () {
+        bool[, ] r = new bool[8, 8];
 
         ChessPiece c;
         int i, j;
@@ -14,20 +12,17 @@ public class Bishop : ChessPiece
         //Top Left
         i = CurrentX;
         j = CurrentY;
-        while (true)
-        {
+        while (true) {
             i--;
             j++;
             if (i < 0 || j >= 8)
                 break;
 
-
             c = spawner.ChessPieces[i, j];
             if (c == null)
                 r[i, j] = true;
 
-            else
-            {
+            else {
                 if (isWhite != c.isWhite)
                     r[i, j] = true;
 
@@ -38,20 +33,17 @@ public class Bishop : ChessPiece
         //Top Right
         i = CurrentX;
         j = CurrentY;
-        while (true)
-        {
+        while (true) {
             i++;
             j++;
             if (i >= 8 || j >= 8)
                 break;
 
-
             c = spawner.ChessPieces[i, j];
             if (c == null)
                 r[i, j] = true;
 
-            else
-            {
+            else {
                 if (isWhite != c.isWhite)
                     r[i, j] = true;
 
@@ -62,20 +54,17 @@ public class Bishop : ChessPiece
         //Down Left
         i = CurrentX;
         j = CurrentY;
-        while (true)
-        {
+        while (true) {
             i--;
             j--;
             if (i < 0 || j < 0)
                 break;
 
-
             c = spawner.ChessPieces[i, j];
             if (c == null)
                 r[i, j] = true;
 
-            else
-            {
+            else {
                 if (isWhite != c.isWhite)
                     r[i, j] = true;
 
@@ -86,27 +75,23 @@ public class Bishop : ChessPiece
         //Down Right
         i = CurrentX;
         j = CurrentY;
-        while (true)
-        {
+        while (true) {
             i++;
             j--;
             if (i >= 8 || j < 0)
                 break;
 
-
             c = spawner.ChessPieces[i, j];
             if (c == null)
                 r[i, j] = true;
 
-            else
-            {
+            else {
                 if (isWhite != c.isWhite)
                     r[i, j] = true;
 
                 break;
             }
         }
-
 
         return r;
 

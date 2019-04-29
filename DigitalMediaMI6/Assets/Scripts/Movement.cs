@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Movement : MonoBehaviour {
+public class Movement {
 
 	// Use this for initialization
 	void Start () {
@@ -12,5 +12,10 @@ public class Movement : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
+	}
+
+
+	public void  {
+
 	}
 }
