@@ -2,20 +2,248 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Movement {
+public class Movement : ChessPiece {
+    bool[, ] r = new bool[8, 8];
+    ChessPiece c;
+    int i, j;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    //Läufer
+    public void topLeftMove () {
+        i = CurrentX;
+        j = CurrentY;
+        while (true) {
+            i--;
+            j++;
+            if (i < 0 || j >= 8)
+                break;
+
+            c = spawner.ChessPieces[i, j];
+            if (c == null)
+                r[i, j] = true;
+
+            else {
+                if (isWhite != c.isWhite)
+                    r[i, j] = true;
+
+                break;
+            }
+        }
+
+    }
+    public void topRightMove () {
+        i = CurrentX;
+        j = CurrentY;
+        while (true) {
+            i++;
+            j++;
+            if (i >= 8 || j >= 8)
+                break;
+
+            c = spawner.ChessPieces[i, j];
+            if (c == null)
+                r[i, j] = true;
+
+            else {
+                if (isWhite != c.isWhite)
+                    r[i, j] = true;
+
+                break;
+            }
+        }
+    }
+
+    public void downLeftMove () {
+        i = CurrentX;
+        j = CurrentY;
+        while (true) {
+            i--;
+            j--;
+            if (i < 0 || j < 0)
+                break;
+
+            c = spawner.ChessPieces[i, j];
+            if (c == null)
+                r[i, j] = true;
+
+            else {
+                if (isWhite != c.isWhite)
+                    r[i, j] = true;
+
+                break;
+            }
+        }
+    }
+
+    public void downRightMove () {
+        i = CurrentX;
+        j = CurrentY;
+        while (true) {
+            i++;
+            j--;
+            if (i >= 8 || j < 0)
+                break;
+
+            c = spawner.ChessPieces[i, j];
+            if (c == null)
+                r[i, j] = true;
+
+            else {
+                if (isWhite != c.isWhite)
+                    r[i, j] = true;
+
+                break;
+            }
+        }
+    }
+
+    //König
+    public void topSideMove () {
+        i = CurrentX - 1;
+        j = CurrentY + 1;
+        if (CurrentY != 7) {
+            for (int k = 0; k < 3; k++) {
+                if (i >= 0 && i < 8) {
+                    c = spawner.ChessPieces[i, j];
+                    if (c == null)
+                        r[i, j] = true;
+                    else if (isWhite != c.isWhite)
+                        r[i, j] = true;
+                }
+
+                i++;
+            }
+        }
+    }
+
+    public void downSideMove () {
+        i = CurrentX - 1;
+        j = CurrentY - 1;
+        if (CurrentY != 0) {
+            for (int k = 0; k < 3; k++) {
+                if (i >= 0 && i < 8) {
+                    c = spawner.ChessPieces[i, j];
+                    if (c == null)
+                        r[i, j] = true;
+                    else if (isWhite != c.isWhite)
+                        r[i, j] = true;
+                }
+
+                i++;
+            }
+        }
+    }
+
+    public void middleLeftMove () {
+        if (CurrentX != 0) {
+            c = spawner.ChessPieces[CurrentX - 1, CurrentY];
+            if (c == null)
+                r[CurrentX - 1, CurrentY] = true;
+            else if (isWhite != c.isWhite)
+                r[CurrentX - 1, CurrentY] = true;
+
+        }
+    }
+
+    public void middleRightMove () {
+        if (CurrentX != 7) {
+            c = spawner.ChessPieces[CurrentX + 1, CurrentY];
+            if (c == null)
+                r[CurrentX + 1, CurrentY] = true;
+            else if (isWhite != c.isWhite)
+                r[CurrentX + 1, CurrentY] = true;
+
+        }
+    }
+
+    //Königin
+    public void rightMove() {
+        i = CurrentX;
+        while (true) {
+            i++;
+            if (i >= 8) {
+                break;
+            }
+
+            c = spawner.ChessPieces[i, CurrentY];
+            if (c == null) {
+                r[i, CurrentY] = true;
+            } else {
+                if (c.isWhite != isWhite) {
+                    r[i, CurrentY] = true;
+                }
+                break;
+            }
+
+        }
+    }
+
+    public void leftMove() {
+        i = CurrentX;
+        while (true) {
+            i--;
+            if (i < 0) {
+                break;
+            }
+
+            c = spawner.ChessPieces[i, CurrentY];
+            if (c == null) {
+                r[i, CurrentY] = true;
+            } else {
+                if (c.isWhite != isWhite) {
+                    r[i, CurrentY] = true;
+                }
+                break;
+            }
+
+        }
+    }
+
+    public void upMove() {
+        i = CurrentY;
+        while (true) {
+            i++;
+            if (i >= 8) {
+                break;
+            }
+
+            c = spawner.ChessPieces[CurrentX, i];
+            if (c == null) {
+                r[CurrentX, i] = true;
+            } else {
+                if (c.isWhite != isWhite) {
+                    r[CurrentX, i] = true;
+                }
+                break;
+            }
+
+        }
+    }
+
+    public void downMove() {
+        i = CurrentY;
+        while (true) {
+            i--;
+            if (i < 0) {
+                break;
+            }
+
+            c = spawner.ChessPieces[CurrentX, i];
+            if (c == null) {
+                r[CurrentX, i] = true;
+            } else {
+                if (c.isWhite != isWhite) {
+                    r[CurrentX, i] = true;
+                }
+                break;
+            }
+
+        }
+    }
+
+    
 
 
-	public void  {
 
-	}
+
+    //Pferd TODO
 }
