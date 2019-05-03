@@ -13,9 +13,4 @@ public class Movement {
 	void Update () {
 		
 	}
-
-
-	public void  {
-
-	}
 }
