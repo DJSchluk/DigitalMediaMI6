@@ -31,6 +31,14 @@ public class BoardManager : MonoBehaviour {
         drawBoard.UpdateDrawBoard();
         selection.UpdateSelection();
 
+        OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, OVRInput.Controller.RTouch);
+
+        //HIER XR Movement für VR Bedienung
+        if (Input.GetButton("15")) {
+            Debug.Log("Button wurde gesqueezed");
+        }
+
+
         if (Input.GetMouseButtonDown(0))
         {
             //Debug.Log("Klick!");
