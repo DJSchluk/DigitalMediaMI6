@@ -8,8 +8,10 @@ public class ChessPieceSpawner {
 
     public ChessPiece[, ] ChessPieces { set; get; }
 
-    private const float TILE_SIZE = 1.0f;
-    private const float TILE_OFFSET = 0.5f;
+    //private const float TILE_SIZE = 1.0f;
+    private const float TILE_SIZE = 60.0f;
+    //private const float TILE_OFFSET = 0.5f;
+    private const float TILE_OFFSET = 30.0f;
     private Transform transform;
 
     public ChessPieceSpawner (Transform _transform) {
