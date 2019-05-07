@@ -19,7 +19,7 @@ public class ChessPieceFactory : MonoBehaviour
     [SerializeField]
     private GameObject pawnBlackPrefab;
     [SerializeField]
-    private GameObject knightBlackPrefab;
+    private GameObject kingBlackPrefab;
     [SerializeField]
     private GameObject rookBlackPrefab;
     [SerializeField]
@@ -27,7 +27,7 @@ public class ChessPieceFactory : MonoBehaviour
     [SerializeField]
     private GameObject queenBlackPrefab;
     [SerializeField]
-    private GameObject kingBlackPrefab;
+    private GameObject knightBlackPrefab;
     [SerializeField]
 
     private void Awake()
@@ -83,7 +83,7 @@ public class ChessPieceFactory : MonoBehaviour
         return pawnBlackPrefab;
     }
 
-    public GameObject BuildBlackKnight()
+    public GameObject BuildBlackKing()
     {
         return kingBlackPrefab;
     }
@@ -103,7 +103,7 @@ public class ChessPieceFactory : MonoBehaviour
         return queenBlackPrefab;
     }
 
-    public GameObject BuildBlackKing()
+    public GameObject BuildBlackKnight()
     {
         return knightBlackPrefab;
     }
