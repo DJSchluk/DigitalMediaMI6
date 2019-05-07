@@ -31,9 +31,10 @@ public class BoardManager : MonoBehaviour {
         drawBoard.UpdateDrawBoard();
         selection.UpdateSelection();
 
-        if (Input.GetMouseButtonDown(0))
+        //if (Input.GetMouseButtonDown(0))
+        if (OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger) != 0)
         {
-            //Debug.Log("Klick!");
+            Debug.Log("VR-Klick!");
             if (selection.GetSelectionX() >= 0 && selection.GetSelectionY() >= 0)
             {
                 //Debug.Log("x >= 0 && y >= 0");
