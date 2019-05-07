@@ -2,15 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class TempAudioMenu : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-        Debug.Log("Klick");
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public AudioSource buttonSound;
+    public AudioClip hoverSound;
+    public AudioClip clickSound;
+
+    public void HoverSound()
+    {
+        buttonSound.PlayOneShot(hoverSound);
+    }
+
+    public void ClickSound()
+    {
+        buttonSound.PlayOneShot(clickSound);
+    }
+
+
+
 }
