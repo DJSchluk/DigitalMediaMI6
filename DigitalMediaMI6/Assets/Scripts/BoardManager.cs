@@ -34,7 +34,7 @@ public class BoardManager : MonoBehaviour {
         //if (Input.GetMouseButtonDown(0))
         if (OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger) != 0)
         {
-            Debug.Log("VR-Klick!");
+            Debug.Log("Klick VR");
             if (selection.GetSelectionX() >= 0 && selection.GetSelectionY() >= 0)
             {
                 //Debug.Log("x >= 0 && y >= 0");
@@ -48,6 +48,9 @@ public class BoardManager : MonoBehaviour {
                     MoveChessPiece(selection.GetSelectionX(), selection.GetSelectionY());
 
                 }
+            } else
+            {
+                Debug.Log("Ausserhalb des Spielfelds");
             }
         }
     }

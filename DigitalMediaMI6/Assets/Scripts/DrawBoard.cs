@@ -16,8 +16,11 @@ public class DrawBoard
 
     private void DrawChessboard()
     {
-        Vector3 widthLine = Vector3.right * 8;
-        Vector3 heigthLine = Vector3.forward * 8;
+        Vector3 widthLine = new Vector3(7.5f,0f,0f) * 8;
+        Vector3 heigthLine = new Vector3(0, 0, 7.5f)* 8;
+
+        //Hier Highlight fixen, da falsche Skalierung, wird kein Highlight angezeigt
+
 
         for (int i = 0; i <= 8; i++)
         {
