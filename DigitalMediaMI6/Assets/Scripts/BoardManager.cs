@@ -14,21 +14,21 @@ public class BoardManager : MonoBehaviour {
     public bool isWhiteTurn = true;
 
     ChessPieceSpawner spawner;
-    DrawBoard drawBoard;
+    //DrawBoard drawBoard;
 
     SelectionManager selection;
 
     private void Start () {
         Instance = this;
         selection = new SelectionManager ();
-        drawBoard = new DrawBoard ();
+        //drawBoard = new DrawBoard ();
         spawner = new ChessPieceSpawner (this.transform);
         spawner.SpawnAllPieces ();
     }
 
     private void Update()
     {
-        drawBoard.UpdateDrawBoard();
+        //drawBoard.UpdateDrawBoard();
         selection.UpdateSelection();
 
         //if (Input.GetMouseButtonDown(0))
@@ -37,7 +37,7 @@ public class BoardManager : MonoBehaviour {
             Debug.Log("Klick VR");
             if (selection.GetSelectionX() >= 0 && selection.GetSelectionY() >= 0)
             {
-                //Debug.Log("x >= 0 && y >= 0");
+                Debug.Log("x >= 0 && y >= 0");
                 if (selectedChessPiece == null)
                 {
                     SelectChessPiece(selection.GetSelectionX(), selection.GetSelectionY());

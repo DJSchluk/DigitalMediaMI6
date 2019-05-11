@@ -14,8 +14,9 @@ public class SelectionManager {
 
 
         RaycastHit hit;
+        //if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 25.0f, LayerMask.GetMask("ChessPlane")))
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 25.0f, LayerMask.GetMask("ChessPlane")))
-        {
+            {
             //Debug.Log("Raycast hit result " + (int)hit.point.x + ", " + (int)hit.point.z);
             selectionX = (int)hit.point.x;
             selectionY = (int)hit.point.z;
