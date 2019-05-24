@@ -1,7 +1,8 @@
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-public class ChessPieceFactory : MonoBehaviour {
+public class ChessPieceFactory : MonoBehaviour
+{
     private static ChessPieceFactory instance;
     [SerializeField]
     private GameObject pawnWhitePrefab;
@@ -18,7 +19,7 @@ public class ChessPieceFactory : MonoBehaviour {
     [SerializeField]
     private GameObject pawnBlackPrefab;
     [SerializeField]
-    private GameObject kingBlackPrefab;
+    private GameObject knightBlackPrefab;
     [SerializeField]
     private GameObject rookBlackPrefab;
     [SerializeField]
@@ -26,69 +27,84 @@ public class ChessPieceFactory : MonoBehaviour {
     [SerializeField]
     private GameObject queenBlackPrefab;
     [SerializeField]
-    private GameObject knightBlackPrefab;
+    private GameObject kingBlackPrefab;
     [SerializeField]
 
-    private void Awake () {
+    private void Awake()
+    {
         if (instance == null)
             instance = this;
         else
             this.enabled = false;
     }
 
-    public static ChessPieceFactory GetInstance () {
-        if (instance == null) {
-            GameObject gameobject = new GameObject ("ChessPieceFactory");
-            instance = gameobject.AddComponent<ChessPieceFactory> ();
+    public static ChessPieceFactory GetInstance()
+    {
+        if (instance == null)
+        {
+            GameObject gameobject = new GameObject("ChessPieceFactory");
+            instance = gameobject.AddComponent<ChessPieceFactory>();
         }
         return instance;
     }
 
-    public GameObject BuildWhitePawn () {
+    public GameObject BuildWhitePawn()
+    {
         return pawnWhitePrefab;
     }
 
-    public GameObject BuildWhiteKnight () {
+    public GameObject BuildWhiteKnight()
+    {
         return knightWhitePrefab;
     }
 
-    public GameObject BuildWhiteRook () {
+    public GameObject BuildWhiteRook()
+    {
         return rookWhitePrefab;
     }
 
-    public GameObject BuildWhiteBishop () {
+    public GameObject BuildWhiteBishop()
+    {
         return bishopWhitePrefab;
     }
 
-    public GameObject BuildWhiteQueen () {
+    public GameObject BuildWhiteQueen()
+    {
         return queenWhitePrefab;
     }
 
-    public GameObject BuildWhiteKing () {
+    public GameObject BuildWhiteKing()
+    {
         return kingWhitePrefab;
     }
 
-    public GameObject BuildBlackPawn () {
+    public GameObject BuildBlackPawn()
+    {
         return pawnBlackPrefab;
     }
 
-    public GameObject BuildBlackKing () {
+    public GameObject BuildBlackKnight()
+    {
         return kingBlackPrefab;
     }
 
-    public GameObject BuildBlackRook () {
+    public GameObject BuildBlackRook()
+    {
         return rookBlackPrefab;
     }
 
-    public GameObject BuildBlackBishop () {
+    public GameObject BuildBlackBishop()
+    {
         return bishopBlackPrefab;
     }
 
-    public GameObject BuildBlackQueen () {
+    public GameObject BuildBlackQueen()
+    {
         return queenBlackPrefab;
     }
 
-    public GameObject BuildBlackKnight () {
+    public GameObject BuildBlackKing()
+    {
         return knightBlackPrefab;
     }
 }

@@ -40,10 +40,8 @@ public class BoardHighlights : MonoBehaviour
                 {
                     GameObject go = GetHighlightObject();
                     go.SetActive(true);
-                    
 					//Offset (0.5f) hardcoded, wird noch geändert -> TILEOFFSET X + Y
-                    go.transform.position = new Vector3(i+30.0f, 0, j+30.0f);
-                    Debug.Log("Highlight wurde ausgeführt");
+                    go.transform.position = new Vector3(i+0.5f, 0, j+0.5f);
                 }
             }
         }

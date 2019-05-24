@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ChessPiece : MonoBehaviour {
+public abstract class ChessPiece : MonoBehaviour
+{
 
     public int CurrentX { set; get; }
     public int CurrentY { set; get; }
@@ -10,18 +11,22 @@ public abstract class ChessPiece : MonoBehaviour {
     public bool isWhite;
     protected ChessPieceSpawner spawner;
 
-    public void setPosition (int x, int y) {
+    public void setPosition(int x, int y)
+    {
         CurrentX = x;
         CurrentY = y;
 
     }
 
-    public virtual bool[, ] PossibleMove () {
+    public virtual bool[,] PossibleMove()
+    {
 
         return new bool[8, 8];
     }
 
-    public void SetSpawner (ChessPieceSpawner _spawner) {
+    public void SetSpawner(ChessPieceSpawner _spawner)
+    {
         spawner = _spawner;
     }
 }
+

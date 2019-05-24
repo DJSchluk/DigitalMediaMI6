@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using ControllerSelection;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,30 +15,52 @@ public class BoardManager : MonoBehaviour {
     public bool isWhiteTurn = true;
 
     ChessPieceSpawner spawner;
-    //DrawBoard drawBoard;
+    DrawBoard drawBoard;
 
     SelectionManager selection;
+
+    [HideInInspector]
+    //public OVRInput.Controller activeController = OVRInput.Controller.None;
+    public OVRInput.Controller activeController = OVRInput.Controller.RTouch;
+
+    /*[Header("(Optional) Tracking space")]
+    [Tooltip("Tracking space of the OVRCameraRig.\nIf tracking space is not set, the scene will be searched.\nThis search is expensive.")]
+    public Transform trackingSpace = null;*/
+
+    [Header("Selection")]
+    //[Tooltip("Primary selection button")]
+    // OVRInput.Button primaryButton = OVRInput.Button.One;
+    //[Tooltip("Secondary selection button")]
+    //public OVRInput.Button secondaryButton = OVRInput.Button.SecondaryIndexTrigger;
+    //[Tooltip("Maximum raycast distance")]
+    public float raycastDistance = 500;
+
+    
+
 
     private void Start () {
         Instance = this;
         selection = new SelectionManager ();
-        //drawBoard = new DrawBoard ();
+        drawBoard = new DrawBoard ();
         spawner = new ChessPieceSpawner (this.transform);
         spawner.SpawnAllPieces ();
+
+        
     }
 
     private void Update()
     {
-        //drawBoard.UpdateDrawBoard();
+        drawBoard.UpdateDrawBoard();
         selection.UpdateSelection();
 
-        //if (Input.GetMouseButtonDown(0))
-        if (OVRInput.Get(OVRInput.Axis1D.SecondaryIndexTrigger) != 0)
+        //if(Input.GetMouseButtonDown(0))   
+
+        if (OVRInput.GetDown(OVRInput.Button.One))
         {
-            Debug.Log("Klick VR");
+            Debug.Log("VR Klick!");
             if (selection.GetSelectionX() >= 0 && selection.GetSelectionY() >= 0)
             {
-                Debug.Log("x >= 0 && y >= 0");
+                //Debug.Log("x >= 0 && y >= 0");
                 if (selectedChessPiece == null)
                 {
                     SelectChessPiece(selection.GetSelectionX(), selection.GetSelectionY());
@@ -48,9 +71,6 @@ public class BoardManager : MonoBehaviour {
                     MoveChessPiece(selection.GetSelectionX(), selection.GetSelectionY());
 
                 }
-            } else
-            {
-                Debug.Log("Ausserhalb des Spielfelds");
             }
         }
     }
