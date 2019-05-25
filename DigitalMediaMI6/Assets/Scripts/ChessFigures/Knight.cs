@@ -8,21 +8,21 @@ public class Knight : ChessPiece {
         bool[, ] r = new bool[8, 8];
 
         //UpLeft
-        KnightMove (CurrentX - 1, CurrentY + 2, ref r);
+        KnightMove (X - 1, Y + 2, ref r);
         //UpRight
-        KnightMove (CurrentX + 1, CurrentY + 2, ref r);
+        KnightMove (X + 1, Y + 2, ref r);
         //RightUp
-        KnightMove (CurrentX + 2, CurrentY + 1, ref r);
+        KnightMove (X + 2, Y + 1, ref r);
         //RightDown
-        KnightMove (CurrentX + 2, CurrentY - 1, ref r);
+        KnightMove (X + 2, Y - 1, ref r);
         //DownLeft
-        KnightMove (CurrentX - 1, CurrentY - 2, ref r);
+        KnightMove (X - 1, Y - 2, ref r);
         //DownRight
-        KnightMove (CurrentX + 1, CurrentY - 2, ref r);
+        KnightMove (X + 1, Y - 2, ref r);
         //LeftUp
-        KnightMove (CurrentX - 2, CurrentY + 1, ref r);
+        KnightMove (X - 2, Y + 1, ref r);
         //LeftDown
-        KnightMove (CurrentX - 2, CurrentY - 1, ref r);
+        KnightMove (X - 2, Y - 1, ref r);
 
         return r;
     }

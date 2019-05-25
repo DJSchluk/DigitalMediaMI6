@@ -2,31 +2,53 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ChessPiece : MonoBehaviour
+public enum PieceType
 {
-
-    public int CurrentX { set; get; }
-    public int CurrentY { set; get; }
-
-    public bool isWhite;
-    protected ChessPieceSpawner spawner;
-
-    public void setPosition(int x, int y)
-    {
-        CurrentX = x;
-        CurrentY = y;
-
-    }
-
-    public virtual bool[,] PossibleMove()
-    {
-
-        return new bool[8, 8];
-    }
-
-    public void SetSpawner(ChessPieceSpawner _spawner)
-    {
-        spawner = _spawner;
-    }
+	Bishop,
+	King,
+	Knight,
+	Pawn,
+	Queen,
+	Rook
 }
 
+public abstract class ChessPiece : MonoBehaviour
+{
+	public int X { set; get; }
+	public int Y { set; get; }
+
+	public PieceType Type { set; get; }
+
+	public bool isWhite;
+	protected ChessPieceSpawner spawner;
+
+	public abstract bool[,] PossibleMove();
+
+	public void SetPosition(int x, int y, bool updateField = true)
+	{
+		if (updateField)
+		{
+			spawner.ChessPieces[this.X, this.Y] = null;
+			transform.position = spawner.GetTileCenter(x, y);
+		}
+
+		this.X = x;
+		this.Y = y;
+
+		if (updateField)
+		{
+			// X and Y are updated now
+			spawner.ChessPieces[this.X, this.Y] = this;
+		}
+	}
+
+	public void SetSpawner(ChessPieceSpawner _spawner)
+	{
+		spawner = _spawner;
+	}
+
+	public bool CheckIfMoveIsValid(int X, int Y)
+	{
+		return PossibleMove()[X, Y];
+	}
+}

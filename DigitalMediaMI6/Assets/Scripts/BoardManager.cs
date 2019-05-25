@@ -8,20 +8,22 @@ using UnityEngine;
 public class BoardManager : MonoBehaviour {
     public static BoardManager Instance { set; get; }
 
-    private bool[, ] allowedMoves { set; get; }
+	//private bool[, ] allowedMoves { set; get; }
 
-    private ChessPiece selectedChessPiece;
+	public bool isWhiteTurn = true;
+	private ChessPiece selectedChessPiece;
 
-    public bool isWhiteTurn = true;
-
-    ChessPieceSpawner spawner;
-    DrawBoard drawBoard;
-
+    
+	private Client client;
+	ChessPieceSpawner spawner;
+	//DrawBoard drawBoard;
     SelectionManager selection;
 
-    [HideInInspector]
+    /*
+	 [HideInInspector]
     //public OVRInput.Controller activeController = OVRInput.Controller.None;
     public OVRInput.Controller activeController = OVRInput.Controller.RTouch;
+	*/
 
     /*[Header("(Optional) Tracking space")]
     [Tooltip("Tracking space of the OVRCameraRig.\nIf tracking space is not set, the scene will be searched.\nThis search is expensive.")]
@@ -35,103 +37,133 @@ public class BoardManager : MonoBehaviour {
     //[Tooltip("Maximum raycast distance")]
     public float raycastDistance = 500;
 
-    
+	private bool IsMyTurn
+	{
+		get
+		{
+			return client.isHost == isWhiteTurn;
+		}
+	}
 
 
-    private void Start () {
+	private void Start () {
         Instance = this;
         selection = new SelectionManager ();
-        drawBoard = new DrawBoard ();
+        //drawBoard = new DrawBoard ();
         spawner = new ChessPieceSpawner (this.transform);
-        spawner.SpawnAllPieces ();
+		client = FindObjectOfType<Client>();
+		isWhiteTurn = true;
+		spawner.SpawnAllPieces ();
 
         
     }
 
-    private void Update()
-    {
-        drawBoard.UpdateDrawBoard();
-        selection.UpdateSelection();
+	private void Update()
+	{
+		bool IsInputPressed,
+				IsFieldSelected;
+		int X,
+				Y;
 
-        //if(Input.GetMouseButtonDown(0))   
+		(new DrawBoard()).UpdateDrawBoard();
 
-        if (OVRInput.GetDown(OVRInput.Button.One))
-        {
-            Debug.Log("VR Klick!");
-            if (selection.GetSelectionX() >= 0 && selection.GetSelectionY() >= 0)
-            {
-                //Debug.Log("x >= 0 && y >= 0");
-                if (selectedChessPiece == null)
-                {
-                    SelectChessPiece(selection.GetSelectionX(), selection.GetSelectionY());
-                    Debug.Log("Ausgewähltes Feld: " + selection.GetSelectionX() + ", " + selection.GetSelectionY());
-                }
-                else
-                {
-                    MoveChessPiece(selection.GetSelectionX(), selection.GetSelectionY());
+		// IsInputPressed = OVRInput.Get( OVRInput.Button.One );
+		IsInputPressed = Input.GetMouseButtonDown(0);
 
-                }
-            }
-        }
-    }
+		if (IsInputPressed && IsMyTurn)
+		{
+			IsFieldSelected = selection.CheckSelection();
 
-    private void SelectChessPiece (int x, int y) {
-        if (spawner.ChessPieces[x, y] == null) {
-            Debug.Log ("Keine Figur");
-            return;
-        }
+			if (IsFieldSelected)
+			{
+				X = selection.X;
+				Y = selection.Y;
 
-        if (spawner.ChessPieces[x, y].isWhite != isWhiteTurn) {
-            Debug.Log ("Nicht am Zug");
-            return;
-        }
-        
-        allowedMoves = spawner.ChessPieces[x,y].PossibleMove();
-        selectedChessPiece = spawner.ChessPieces[x, y];
-        Debug.Log (selectedChessPiece.CurrentX + ", " + selectedChessPiece.CurrentY);
-        BoardHighlights.Instance.HighLightAllowedMoves (allowedMoves);
-    }
+				if (selectedChessPiece == null)
+				{
+					SelectChessPiece(X, Y);
+				}
+				else
+				{
+					if (selectedChessPiece.CheckIfMoveIsValid(X, Y))
+					{
+						SendMoveSelectedChessPieceToMessage(X, Y);
+						MoveSelectedChessPieceTo(X, Y);
+					}
+				}
+			}
+		}
+	}
 
-    private void MoveChessPiece (int x, int y) {
-        //ALLOWED MOVES MUSS GEFIXT WERDEN
-        if (allowedMoves[x, y] == true)
-        {
-            ChessPiece c = spawner.ChessPieces[x, y];
-            if (c != null && c.isWhite != isWhiteTurn)
-            {
+	public void SelectChessPiece(int x, int y, bool highlight = true)
+	{
+		selectedChessPiece = spawner.ChessPieces[x, y];
 
-                //Figur schlagen
-                //Falls König
-                if (c.GetType () == typeof (King)) {
-                    //end
-                    EndGame ();
-                    return;
-                }
-                spawner.activeChessPieces.Remove(c.gameObject);
-                Destroy(c.gameObject);
-            }
-            spawner.ChessPieces[selectedChessPiece.CurrentX, selectedChessPiece.CurrentY] = null;
-            selectedChessPiece.transform.position = spawner.GetTileCenter (x, y);
-            selectedChessPiece.setPosition (x, y);
-            spawner.ChessPieces[x, y] = selectedChessPiece;
-            isWhiteTurn = !isWhiteTurn;
-        }
-        BoardHighlights.Instance.HideHighlights ();
-        selectedChessPiece = null;
-    }
+		if (selectedChessPiece != null && highlight)
+			BoardHighlights.Instance.HighLightAllowedMoves(selectedChessPiece);
+	}
 
-    private void EndGame () {
-        if (isWhiteTurn)
-            Debug.Log ("White team wins");
-        else
-            Debug.Log ("Black team wins");
+	public void MoveSelectedChessPieceTo(int X, int Y)
+	{
+		ChessPiece victimPiece = spawner.ChessPieces[X, Y];
 
-        foreach (GameObject go in spawner.activeChessPieces)
-            Destroy (go);
+		// If no piece is selected, we cannot move it.
+		if (selectedChessPiece == null)
+			return;
 
-        isWhiteTurn = true;
-        BoardHighlights.Instance.HideHighlights ();
-        spawner.SpawnAllPieces ();
+		if (victimPiece != null
+		 && victimPiece.isWhite != selectedChessPiece.isWhite)
+		{
+			if (victimPiece is King)
+			{
+				EndGame();
+				return;
+			}
 
-    }
+			spawner.RemoveChessPiece(victimPiece);
+
+			//Destroy ersetzt durch immediate um das ende zu bekommen
+			DestroyImmediate(victimPiece.gameObject);
+		}
+
+		selectedChessPiece.SetPosition(X, Y);
+
+		EndTurn();
+	}
+
+	private void EndTurn()
+	{
+		if (isWhiteTurn)
+			isWhiteTurn = false;
+		else
+			isWhiteTurn = true;
+
+		selectedChessPiece = null;
+
+		BoardHighlights.Instance.HideHighlights();
+	}
+
+	private void SendMoveSelectedChessPieceToMessage(int X, int Y)
+	{
+		string message = "CMOV|";
+		message += selectedChessPiece.X + "|" + selectedChessPiece.Y + "|";
+		message += X + "|" + Y;
+
+		client.Send(message);
+	}
+
+	private void EndGame()
+	{
+		if (isWhiteTurn)
+			Debug.Log("White team wins");
+		else
+			Debug.Log("Black team wins");
+
+		foreach (GameObject go in spawner.activeChessPieces)
+			DestroyImmediate(go);
+
+		isWhiteTurn = true;
+		BoardHighlights.Instance.HideHighlights();
+		spawner.SpawnAllPieces();
+	}
 }
