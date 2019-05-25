@@ -10,9 +10,9 @@ public class King : ChessPiece {
         int i, j;
 
         //Top Side
-        i = CurrentX - 1;
-        j = CurrentY + 1;
-        if (CurrentY != 7) {
+        i = X - 1;
+        j = Y + 1;
+        if (Y != 7) {
             for (int k = 0; k < 3; k++) {
                 if (i >= 0 && i < 8) {
                     c = spawner.ChessPieces[i, j];
@@ -27,9 +27,9 @@ public class King : ChessPiece {
         }
 
         //Down Side
-        i = CurrentX - 1;
-        j = CurrentY - 1;
-        if (CurrentY != 0) {
+        i = X - 1;
+        j = Y - 1;
+        if (Y != 0) {
             for (int k = 0; k < 3; k++) {
                 if (i >= 0 && i < 8) {
                     c = spawner.ChessPieces[i, j];
@@ -44,22 +44,22 @@ public class King : ChessPiece {
         }
 
         //Middle Left
-        if (CurrentX != 0) {
-            c = spawner.ChessPieces[CurrentX - 1, CurrentY];
+        if (X != 0) {
+            c = spawner.ChessPieces[X - 1, Y];
             if (c == null)
-                r[CurrentX - 1, CurrentY] = true;
+                r[X - 1, Y] = true;
             else if (isWhite != c.isWhite)
-                r[CurrentX - 1, CurrentY] = true;
+                r[X - 1, Y] = true;
 
         }
 
         //Middle Right
-        if (CurrentX != 7) {
-            c = spawner.ChessPieces[CurrentX + 1, CurrentY];
+        if (X != 7) {
+            c = spawner.ChessPieces[X + 1, Y];
             if (c == null)
-                r[CurrentX + 1, CurrentY] = true;
+                r[X + 1, Y] = true;
             else if (isWhite != c.isWhite)
-                r[CurrentX + 1, CurrentY] = true;
+                r[X + 1, Y] = true;
 
         }
 

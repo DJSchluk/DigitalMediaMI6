@@ -10,19 +10,19 @@ public class Rook : ChessPiece {
         int i;
 
         //rechts
-        i = CurrentX;
+        i = X;
         while (true) {
             i++;
             if (i >= 8) {
                 break;
             }
 
-            c = spawner.ChessPieces[i, CurrentY];
+            c = spawner.ChessPieces[i, Y];
             if (c == null) {
-                r[i, CurrentY] = true;
+                r[i, Y] = true;
             } else {
                 if (c.isWhite != isWhite) {
-                    r[i, CurrentY] = true;
+                    r[i, Y] = true;
                 }
                 break;
             }
@@ -30,19 +30,19 @@ public class Rook : ChessPiece {
         }
 
         //links
-        i = CurrentX;
+        i = X;
         while (true) {
             i--;
             if (i < 0) {
                 break;
             }
 
-            c = spawner.ChessPieces[i, CurrentY];
+            c = spawner.ChessPieces[i, Y];
             if (c == null) {
-                r[i, CurrentY] = true;
+                r[i, Y] = true;
             } else {
                 if (c.isWhite != isWhite) {
-                    r[i, CurrentY] = true;
+                    r[i, Y] = true;
                 }
                 break;
             }
@@ -50,19 +50,19 @@ public class Rook : ChessPiece {
         }
 
         //hoch
-        i = CurrentY;
+        i = Y;
         while (true) {
             i++;
             if (i >= 8) {
                 break;
             }
 
-            c = spawner.ChessPieces[CurrentX, i];
+            c = spawner.ChessPieces[X, i];
             if (c == null) {
-                r[CurrentX, i] = true;
+                r[X, i] = true;
             } else {
                 if (c.isWhite != isWhite) {
-                    r[CurrentX, i] = true;
+                    r[X, i] = true;
                 }
                 break;
             }
@@ -70,19 +70,19 @@ public class Rook : ChessPiece {
         }
 
         //hoch
-        i = CurrentY;
+        i = Y;
         while (true) {
             i--;
             if (i < 0) {
                 break;
             }
 
-            c = spawner.ChessPieces[CurrentX, i];
+            c = spawner.ChessPieces[X, i];
             if (c == null) {
-                r[CurrentX, i] = true;
+                r[X, i] = true;
             } else {
                 if (c.isWhite != isWhite) {
-                    r[CurrentX, i] = true;
+                    r[X, i] = true;
                 }
                 break;
             }

@@ -11,19 +11,19 @@ public class Queen : ChessPiece {
         int i, j;
 
         //rechts
-        i = CurrentX;
+        i = X;
         while (true) {
             i++;
             if (i >= 8) {
                 break;
             }
 
-            c = spawner.ChessPieces[i, CurrentY];
+            c = spawner.ChessPieces[i, Y];
             if (c == null) {
-                r[i, CurrentY] = true;
+                r[i, Y] = true;
             } else {
                 if (c.isWhite != isWhite) {
-                    r[i, CurrentY] = true;
+                    r[i, Y] = true;
                 }
                 break;
             }
@@ -31,19 +31,19 @@ public class Queen : ChessPiece {
         }
 
         //links
-        i = CurrentX;
+        i = X;
         while (true) {
             i--;
             if (i < 0) {
                 break;
             }
 
-            c = spawner.ChessPieces[i, CurrentY];
+            c = spawner.ChessPieces[i, Y];
             if (c == null) {
-                r[i, CurrentY] = true;
+                r[i, Y] = true;
             } else {
                 if (c.isWhite != isWhite) {
-                    r[i, CurrentY] = true;
+                    r[i, Y] = true;
                 }
                 break;
             }
@@ -51,19 +51,19 @@ public class Queen : ChessPiece {
         }
 
         //hoch
-        i = CurrentY;
+        i = Y;
         while (true) {
             i++;
             if (i >= 8) {
                 break;
             }
 
-            c = spawner.ChessPieces[CurrentX, i];
+            c = spawner.ChessPieces[X, i];
             if (c == null) {
-                r[CurrentX, i] = true;
+                r[X, i] = true;
             } else {
                 if (c.isWhite != isWhite) {
-                    r[CurrentX, i] = true;
+                    r[X, i] = true;
                 }
                 break;
             }
@@ -71,19 +71,19 @@ public class Queen : ChessPiece {
         }
 
         //runter
-        i = CurrentY;
+        i = Y;
         while (true) {
             i--;
             if (i < 0) {
                 break;
             }
 
-            c = spawner.ChessPieces[CurrentX, i];
+            c = spawner.ChessPieces[X, i];
             if (c == null) {
-                r[CurrentX, i] = true;
+                r[X, i] = true;
             } else {
                 if (c.isWhite != isWhite) {
-                    r[CurrentX, i] = true;
+                    r[X, i] = true;
                 }
                 break;
             }
@@ -91,8 +91,8 @@ public class Queen : ChessPiece {
         }
 
         //Top Left
-        i = CurrentX;
-        j = CurrentY;
+        i = X;
+        j = Y;
         while (true) {
             i--;
             j++;
@@ -112,8 +112,8 @@ public class Queen : ChessPiece {
         }
 
         //Top Right
-        i = CurrentX;
-        j = CurrentY;
+        i = X;
+        j = Y;
         while (true) {
             i++;
             j++;
@@ -133,8 +133,8 @@ public class Queen : ChessPiece {
         }
 
         //Down Left
-        i = CurrentX;
-        j = CurrentY;
+        i = X;
+        j = Y;
         while (true) {
             i--;
             j--;
@@ -154,8 +154,8 @@ public class Queen : ChessPiece {
         }
 
         //Down Right
-        i = CurrentX;
-        j = CurrentY;
+        i = X;
+        j = Y;
         while (true) {
             i++;
             j--;

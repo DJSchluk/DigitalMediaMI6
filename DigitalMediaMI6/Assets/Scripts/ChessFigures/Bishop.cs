@@ -10,8 +10,8 @@ public class Bishop : ChessPiece {
         int i, j;
 
         //Top Left
-        i = CurrentX;
-        j = CurrentY;
+        i = X;
+        j = Y;
         while (true) {
             i--;
             j++;
@@ -31,8 +31,8 @@ public class Bishop : ChessPiece {
         }
 
         //Top Right
-        i = CurrentX;
-        j = CurrentY;
+        i = X;
+        j = Y;
         while (true) {
             i++;
             j++;
@@ -52,8 +52,8 @@ public class Bishop : ChessPiece {
         }
 
         //Down Left
-        i = CurrentX;
-        j = CurrentY;
+        i = X;
+        j = Y;
         while (true) {
             i--;
             j--;
@@ -73,8 +73,8 @@ public class Bishop : ChessPiece {
         }
 
         //Down Right
-        i = CurrentX;
-        j = CurrentY;
+        i = X;
+        j = Y;
         while (true) {
             i++;
             j--;

@@ -4,4 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/StartMenu.unity
+    guid: 03dd36bb8f616aa49a382b409a87a073
+  - enabled: 1
+    path: Assets/Scenes/fabio_scene.unity
+    guid: 924857238c0cc4556a97a73f6fe834f9
+  m_configObjects: {}

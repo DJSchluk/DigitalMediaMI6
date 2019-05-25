@@ -12,63 +12,63 @@ public class Pawn : ChessPiece {
         //weiß
         if (isWhite) {
             //diagonal links
-            if (CurrentX != 0 && CurrentY != 7) {
-                c = spawner.ChessPieces[CurrentX - 1, CurrentY + 1];
+            if (X != 0 && Y != 7) {
+                c = spawner.ChessPieces[X - 1, Y + 1];
                 if (c != null && !c.isWhite) {
-                    r[CurrentX - 1, CurrentY + 1] = true;
+                    r[X - 1, Y + 1] = true;
                 }
             }
             //diagonal rechts
-            if (CurrentX != 7 && CurrentY != 7) {
-                c = spawner.ChessPieces[CurrentX + 1, CurrentY + 1];
+            if (X != 7 && Y != 7) {
+                c = spawner.ChessPieces[X + 1, Y + 1];
                 if (c != null && !c.isWhite) {
-                    r[CurrentX + 1, CurrentY + 1] = true;
+                    r[X + 1, Y + 1] = true;
                 }
             }
             //gerade
-            if (CurrentY != 7) {
-                c = spawner.ChessPieces[CurrentX, CurrentY + 1];
+            if (Y != 7) {
+                c = spawner.ChessPieces[X, Y + 1];
                 if (c == null) {
-                    r[CurrentX, CurrentY + 1] = true;
+                    r[X, Y + 1] = true;
                 }
             }
             //gerade erster Zug
-            if (CurrentY == 1) {
-                c = spawner.ChessPieces[CurrentX, CurrentY + 1];
-                c2 = spawner.ChessPieces[CurrentX, CurrentY + 2];
+            if (Y == 1) {
+                c = spawner.ChessPieces[X, Y + 1];
+                c2 = spawner.ChessPieces[X, Y + 2];
                 if (c == null && c2 == null) {
-                    r[CurrentX, CurrentY + 2] = true;
+                    r[X, Y + 2] = true;
                 }
             }
             //en passant
         } else {
             //diagonal links
-            if (CurrentX != 0 && CurrentY != 0) {
-                c = spawner.ChessPieces[CurrentX - 1, CurrentY - 1];
+            if (X != 0 && Y != 0) {
+                c = spawner.ChessPieces[X - 1, Y - 1];
                 if (c != null && c.isWhite) {
-                    r[CurrentX - 1, CurrentY - 1] = true;
+                    r[X - 1, Y - 1] = true;
                 }
             }
             //diagonal rechts
-            if (CurrentX != 7 && CurrentY != 0) {
-                c = spawner.ChessPieces[CurrentX + 1, CurrentY - 1];
+            if (X != 7 && Y != 0) {
+                c = spawner.ChessPieces[X + 1, Y - 1];
                 if (c != null && c.isWhite) {
-                    r[CurrentX + 1, CurrentY + 1] = true;
+                    r[X + 1, Y + 1] = true;
                 }
             }
             //gerade
-            if (CurrentY != 0) {
-                c = spawner.ChessPieces[CurrentX, CurrentY - 1];
+            if (Y != 0) {
+                c = spawner.ChessPieces[X, Y - 1];
                 if (c == null) {
-                    r[CurrentX, CurrentY - 1] = true;
+                    r[X, Y - 1] = true;
                 }
             }
             //gerade erster Zug
-            if (CurrentY == 6) {
-                c = spawner.ChessPieces[CurrentX, CurrentY - 1];
-                c2 = spawner.ChessPieces[CurrentX, CurrentY - 2];
+            if (Y == 6) {
+                c = spawner.ChessPieces[X, Y - 1];
+                c2 = spawner.ChessPieces[X, Y - 2];
                 if (c == null && c2 == null) {
-                    r[CurrentX, CurrentY - 2] = true;
+                    r[X, Y - 2] = true;
                 }
             }
 
