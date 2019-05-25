@@ -90,16 +90,27 @@ public class BoardManager : MonoBehaviour {
 						SendMoveSelectedChessPieceToMessage(X, Y);
 						MoveSelectedChessPieceTo(X, Y);
 					}
+					else
+					{
+						SelectChessPiece(X, Y);
+					}
 				}
 			}
 		}
 	}
 
-	public void SelectChessPiece(int x, int y, bool highlight = true)
+	private void SelectNullChessPiece()
 	{
+		BoardHighlights.Instance.HideHighlights();
+		selectedChessPiece = null;
+	}
+
+	public void SelectChessPiece(int x, int y)
+	{
+		BoardHighlights.Instance.HideHighlights();
 		selectedChessPiece = spawner.ChessPieces[x, y];
 
-		if (selectedChessPiece != null && highlight)
+		if (selectedChessPiece != null)
 			BoardHighlights.Instance.HighLightAllowedMoves(selectedChessPiece);
 	}
 
@@ -127,20 +138,17 @@ public class BoardManager : MonoBehaviour {
 		}
 
 		selectedChessPiece.SetPosition(X, Y);
+		SelectNullChessPiece();
 
-		EndTurn();
+		ToggleTurn();
 	}
 
-	private void EndTurn()
+	private void ToggleTurn()
 	{
 		if (isWhiteTurn)
 			isWhiteTurn = false;
 		else
 			isWhiteTurn = true;
-
-		selectedChessPiece = null;
-
-		BoardHighlights.Instance.HideHighlights();
 	}
 
 	private void SendMoveSelectedChessPieceToMessage(int X, int Y)

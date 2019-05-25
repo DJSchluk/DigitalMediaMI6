@@ -2,22 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PieceType
-{
-	Bishop,
-	King,
-	Knight,
-	Pawn,
-	Queen,
-	Rook
-}
-
 public abstract class ChessPiece : MonoBehaviour
 {
 	public int X { set; get; }
 	public int Y { set; get; }
-
-	public PieceType Type { set; get; }
 
 	public bool isWhite;
 	protected ChessPieceSpawner spawner;
