@@ -85,7 +85,7 @@ public class ChessPieceFactory : MonoBehaviour
 
     public GameObject BuildBlackKnight()
     {
-        return knightBlackPrefab;
+        return kingBlackPrefab;
     }
 
     public GameObject BuildBlackRook()
@@ -105,6 +105,6 @@ public class ChessPieceFactory : MonoBehaviour
 
     public GameObject BuildBlackKing()
     {
-        return kingBlackPrefab;
+        return knightBlackPrefab;
     }
 }

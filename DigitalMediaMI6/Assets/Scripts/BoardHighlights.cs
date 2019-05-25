@@ -30,11 +30,9 @@ public class BoardHighlights : MonoBehaviour
         return go;
     }
 
-    public void HighLightAllowedMoves(ChessPiece selectedChessPiece)
-	{
-		bool[,] moves = selectedChessPiece.PossibleMove();
-
-		for (int i = 0; i < 8; i++)
+    public void HighLightAllowedMoves(bool[,] moves)
+    {
+        for (int i = 0; i < 8; i++)
         {
             for (int j = 0; j < 8; j++)
             {
