@@ -81,8 +81,7 @@ public class Client : MonoBehaviour
                 break;
             case "SMOV":
 				BoardManager manager = BoardManager.Instance;
-				manager.SelectChessPiece(int.Parse(aData[1]), int.Parse(aData[2]));
-				manager.MoveSelectedChessPieceTo(int.Parse(aData[3]), int.Parse(aData[4]));
+				manager.ProcessEnemiesTurn( int.Parse( aData[1] ), int.Parse( aData[2] ), int.Parse( aData[3] ), int.Parse( aData[4] ) );
                 break;
         }
     }
@@ -106,7 +105,7 @@ public class Client : MonoBehaviour
         players.Add(c);
 
         Debug.Log(players);
-        if(players.Count == 2)
+        if(players.Count == 1)
         {
             GameManager.Instance.StartGame();
         }

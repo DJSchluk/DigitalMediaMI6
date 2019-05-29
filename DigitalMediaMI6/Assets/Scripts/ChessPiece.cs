@@ -39,4 +39,9 @@ public abstract class ChessPiece : MonoBehaviour
 	{
 		return PossibleMove()[X, Y];
 	}
+
+	public bool CheckIfMoveIsValid(Vector2 coords)
+	{
+		return CheckIfMoveIsValid( (int)coords.x, (int)coords.y );
+	}
 }

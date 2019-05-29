@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 23160403841118764}
   - component: {fileID: 114989032485981110}
   - component: {fileID: 3124796578755969160}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BauerW
   m_TagString: Untagged
   m_Icon: {fileID: 0}

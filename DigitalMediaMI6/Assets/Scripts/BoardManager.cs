@@ -5,38 +5,18 @@ using UnityEngine;
 
 [RequireComponent (typeof (ChessPieceFactory))]
 
-public class BoardManager : MonoBehaviour {
-    public static BoardManager Instance { set; get; }
+public class BoardManager : MonoBehaviour
+{
+	[HideInInspector]
+	public OVRInput.Controller activeController = OVRInput.Controller.RTouch;
 
-	//private bool[, ] allowedMoves { set; get; }
-
+	public static BoardManager Instance { set; get; }
+	
 	public bool isWhiteTurn = true;
-	private ChessPiece selectedChessPiece;
-
-    
 	private Client client;
-	ChessPieceSpawner spawner;
-	//DrawBoard drawBoard;
-    SelectionManager selection;
-
-    /*
-	 [HideInInspector]
-    //public OVRInput.Controller activeController = OVRInput.Controller.None;
-    public OVRInput.Controller activeController = OVRInput.Controller.RTouch;
-	*/
-
-    /*[Header("(Optional) Tracking space")]
-    [Tooltip("Tracking space of the OVRCameraRig.\nIf tracking space is not set, the scene will be searched.\nThis search is expensive.")]
-    public Transform trackingSpace = null;*/
-
-    [Header("Selection")]
-    //[Tooltip("Primary selection button")]
-    // OVRInput.Button primaryButton = OVRInput.Button.One;
-    //[Tooltip("Secondary selection button")]
-    //public OVRInput.Button secondaryButton = OVRInput.Button.SecondaryIndexTrigger;
-    //[Tooltip("Maximum raycast distance")]
-    public float raycastDistance = 500;
-
+	private ChessPieceSpawner spawner;
+	private SelectionManager selection;
+	
 	private bool IsMyTurn
 	{
 		get
@@ -44,86 +24,86 @@ public class BoardManager : MonoBehaviour {
 			return client.isHost == isWhiteTurn;
 		}
 	}
-
-
-	private void Start () {
+	
+	private void Start() 
+	{
         Instance = this;
-        selection = new SelectionManager ();
-        //drawBoard = new DrawBoard ();
-        spawner = new ChessPieceSpawner (this.transform);
-		client = FindObjectOfType<Client>();
-		isWhiteTurn = true;
-		spawner.SpawnAllPieces ();
 
-        
-    }
+        spawner = new ChessPieceSpawner( this.transform );
+		selection = new SelectionManager( this.spawner );
+		client = FindObjectOfType<Client>();
+
+		spawner.SpawnAllPieces();
+
+		isWhiteTurn = true;
+	}
 
 	private void Update()
 	{
-		bool IsInputPressed,
-				IsFieldSelected;
-		int X,
-				Y;
+		bool IsInputPressed = false;
+		SelectionAction action = SelectionAction.None;
 
 		(new DrawBoard()).UpdateDrawBoard();
 
-		// IsInputPressed = OVRInput.Get( OVRInput.Button.One );
+		//IsInputPressed = OVRInput.Get( OVRInput.Button.One );
 		IsInputPressed = Input.GetMouseButtonDown(0);
 
 		if (IsInputPressed && IsMyTurn)
 		{
-			IsFieldSelected = selection.CheckSelection();
+			action = selection.CheckAction();
 
-			if (IsFieldSelected)
+			switch( action )
 			{
-				X = selection.X;
-				Y = selection.Y;
+				case SelectionAction.Select:
+					HighlightPiece( selection.Piece );
+					break;
 
-				if (selectedChessPiece == null)
-				{
-					SelectChessPiece(X, Y);
-				}
-				else
-				{
-					if (selectedChessPiece.CheckIfMoveIsValid(X, Y))
-					{
-						SendMoveSelectedChessPieceToMessage(X, Y);
-						MoveSelectedChessPieceTo(X, Y);
-					}
-					else
-					{
-						SelectChessPiece(X, Y);
-					}
-				}
+				case SelectionAction.DeSelect:
+					RemoveHighlights();
+					break;
+
+				case SelectionAction.Move:
+					Debug.Log( "Update" );
+					SendMoveSelectedChessPieceMessage();
+					MoveSelectedChessPiece();
+					break;
 			}
+
+			selection.FinishAction( action );
 		}
 	}
 
-	private void SelectNullChessPiece()
+	private void RemoveHighlights()
 	{
 		BoardHighlights.Instance.HideHighlights();
-		selectedChessPiece = null;
 	}
 
-	public void SelectChessPiece(int x, int y)
+	private void HighlightPiece(ChessPiece piece)
 	{
-		BoardHighlights.Instance.HideHighlights();
-		selectedChessPiece = spawner.ChessPieces[x, y];
+		RemoveHighlights();
 
-		if (selectedChessPiece != null)
-			BoardHighlights.Instance.HighLightAllowedMoves(selectedChessPiece);
+		if ( piece != null )
+			BoardHighlights.Instance.HighLightAllowedMoves( piece );
 	}
 
-	public void MoveSelectedChessPieceTo(int X, int Y)
+
+	public void ProcessEnemiesTurn( int Xs, int Ys, int Xd, int Yd )
 	{
-		ChessPiece victimPiece = spawner.ChessPieces[X, Y];
+		selection.Select( Xs, Ys );
+		selection.Select( Xd, Yd );
 
-		// If no piece is selected, we cannot move it.
-		if (selectedChessPiece == null)
-			return;
+		Debug.Log( "ProcessEnemiesTurn" );
+		MoveSelectedChessPiece();
+	}
 
+	private void MoveSelectedChessPiece()
+	{
+		Debug.Log( "Move Chess Piece" );
+
+		ChessPiece victimPiece = spawner.ChessPieces[(int)selection.ClickedField.x, (int)selection.ClickedField.y];
+		
 		if (victimPiece != null
-		 && victimPiece.isWhite != selectedChessPiece.isWhite)
+		 && victimPiece.isWhite != selection.Piece.isWhite)
 		{
 			if (victimPiece is King)
 			{
@@ -132,32 +112,37 @@ public class BoardManager : MonoBehaviour {
 			}
 
 			spawner.RemoveChessPiece(victimPiece);
-
-			//Destroy ersetzt durch immediate um das ende zu bekommen
-			DestroyImmediate(victimPiece.gameObject);
+			DestroyImmediate( victimPiece.gameObject );
 		}
-
-		selectedChessPiece.SetPosition(X, Y);
-		SelectNullChessPiece();
 
 		ToggleTurn();
 	}
 
 	private void ToggleTurn()
 	{
+		Debug.Log( "BeforeToggle: " + isWhiteTurn.ToString() );
+
 		if (isWhiteTurn)
 			isWhiteTurn = false;
 		else
 			isWhiteTurn = true;
+
+		Debug.Log( "AfterToggle: " + isWhiteTurn.ToString() );
+		Debug.Log( "IsMyTurn: " + IsMyTurn.ToString() );
 	}
 
-	private void SendMoveSelectedChessPieceToMessage(int X, int Y)
+	private void SendMoveSelectedChessPieceMessage()
 	{
 		string message = "CMOV|";
-		message += selectedChessPiece.X + "|" + selectedChessPiece.Y + "|";
-		message += X + "|" + Y;
+		message += BuildCoordinateString( selection.SelectedField ) + "|";
+		message += BuildCoordinateString( selection.ClickedField );
 
-		client.Send(message);
+		client.Send( message );
+	}
+
+	private string BuildCoordinateString( Vector2 coords )
+	{
+		return ( (int)coords.x ).ToString() + "|" + ( (int)coords.y ).ToString();
 	}
 
 	private void EndGame()
@@ -171,7 +156,8 @@ public class BoardManager : MonoBehaviour {
 			DestroyImmediate(go);
 
 		isWhiteTurn = true;
-		BoardHighlights.Instance.HideHighlights();
+		RemoveHighlights();
+
 		spawner.SpawnAllPieces();
 	}
 }

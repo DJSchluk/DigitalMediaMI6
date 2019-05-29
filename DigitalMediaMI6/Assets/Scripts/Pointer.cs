@@ -14,6 +14,11 @@ public class Pointer : MonoBehaviour
     private Transform m_CurrentOrigin = null;
     private GameObject m_CurrentObject = null;
 
+    public Transform Transform
+    {
+        get { return m_CurrentOrigin; }
+    }
+
     private void Awake()
     {
         PlayerEvents.OnControllerSource += UpdateOrigin;
@@ -75,7 +80,7 @@ public class Pointer : MonoBehaviour
         }
     }
 
-    private GameObject UpdatePointerStatus()
+    public GameObject UpdatePointerStatus()
     {
         // Create Ray
         RaycastHit hit = CreateRaycast(m_InteractableMask);
@@ -88,13 +93,19 @@ public class Pointer : MonoBehaviour
         return null;
     }
 
-    private RaycastHit CreateRaycast(int layer)
+    public RaycastHit CreateRaycast(int layer)
     {
         RaycastHit hit;
         Ray ray = new Ray(m_CurrentOrigin.position, m_CurrentOrigin.forward);
         Physics.Raycast(ray, out hit, m_Distance, layer);
 
         return hit;
+    }
+
+    public bool GetHittedField( out RaycastHit hit )
+    {
+        Ray ray = new Ray(m_CurrentOrigin.position, m_CurrentOrigin.forward);
+        return Physics.Raycast(ray, out hit, m_Distance, LayerMask.GetMask("ChessPlane"));
     }
 
     private void SetLineColor()
@@ -114,6 +125,6 @@ public class Pointer : MonoBehaviour
             return;
 
         Interactable interactable = m_CurrentObject.GetComponent<Interactable>();
-        interactable.Pressed();
+        //interactable.Pressed();
     }
 }

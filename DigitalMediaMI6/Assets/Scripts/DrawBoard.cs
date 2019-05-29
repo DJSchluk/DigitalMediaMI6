@@ -4,14 +4,10 @@ using UnityEngine;
 
 public class DrawBoard
 {
-	SelectionManager selection = new SelectionManager();
-
 	public void UpdateDrawBoard()
 	{
-		selection.CheckSelection();
 		DrawChessboard();
-		DrawSelection(selection.X, selection.Y);
-		//        Debug.Log("UpdateDrawBoard: " + selection.GetSelectionX() + ", " + selection.GetSelectionY());
+		//DrawSelection((int)field.x, (int)field.y);
 	}
 
 	private void DrawChessboard()

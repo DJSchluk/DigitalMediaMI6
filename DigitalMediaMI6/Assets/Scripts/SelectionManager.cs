@@ -1,58 +1,154 @@
 ﻿using ControllerSelection;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
 
 
+public enum SelectionAction
+{
+	Move,
+	Select,
+	DeSelect,
+	None
+}
+
 public class SelectionManager
 {
+	private Vector2 clickedField;
+	private Vector2 selectedField;
+	private ChessPiece selectedChessPiece;
+	private ChessPieceSpawner spawner;
 
-	private int selectionX = -1;
-	private int selectionY = -1;
-
-	/*[HideInInspector]
-	public OVRInput.Controller activeController = OVRInput.Controller.None;
-
-	Transform trackingSpace = null;*/
-
-
-
-	public bool CheckSelection()
+	public Vector2 ClickedField
 	{
-		if (!Camera.main)
-			return selectionX >= 0 && selectionY >= 0;
+		get { return clickedField; }
+	}
+	public Vector2 SelectedField
+	{
+		get { return selectedField; }
+	}
 
-
-
-		RaycastHit hit;
-
-		/*Ray selectionRay = OVRInputHelpers.GetSelectionRay(activeController, trackingSpace);
-		selectionRay = Camera.main.ScreenPointToRay(new Vector2(Screen.height / 2, Screen.width / 2));
-		if (Physics.Raycast(selectionRay, out hit))*/
-		if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 25.0f, LayerMask.GetMask("ChessPlane")))
+	public bool IsFieldSelected
+	{
+		get 
+		{ 
+			return selectedField.x >= 0 && selectedField.y >= 0;
+		}
+	}
+	public bool IsPieceSelected 
+	{ 
+		get
 		{
+			return selectedChessPiece != null;
+		}
+	}
 
-			//Debug.Log("Raycast hit result " + (int)hit.point.x + ", " + (int)hit.point.z);
-			selectionX = (int)hit.point.x;
-			selectionY = (int)hit.point.z;
-			//Debug.Log("Selection variable content " + selectionX + ", " + selectionY);
+	public ChessPiece Piece
+	{
+		get
+		{
+			selectedChessPiece = spawner.ChessPieces[(int)selectedField.x, (int)selectedField.y];
+			return selectedChessPiece;
+		}
+	}
+
+	public SelectionManager( ChessPieceSpawner spawner )
+	{
+		this.spawner = spawner;
+		this.selectedField = new Vector2();
+		this.clickedField = new Vector2();
+	}
+
+    public SelectionAction CheckAction()
+    {
+        try
+        {
+            if( !Camera.main )
+                throw new Exception("Camera not main");
+
+			InitField( clickedField );
+
+			bool isFieldHitted;
+			RaycastHit hittedField;
+
+			isFieldHitted = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hittedField, 25.0f, LayerMask.GetMask("ChessPlane"));
+			//isFieldHitted = GetLaserPointer().GetHittedField( out hittedField );
+
+			if( isFieldHitted )
+			{
+				clickedField.x = hittedField.point.x;
+                clickedField.y = hittedField.point.z;
+
+				if( IsPieceSelected )
+				{
+					if( Piece.CheckIfMoveIsValid( clickedField ) )
+						return SelectionAction.Move;
+					else
+						return SelectionAction.DeSelect;
+				}
+				else
+				{
+					return SelectionAction.Select;
+				}
+
+			}
+        }
+        catch (Exception xept)
+        {
+            Debug.Log(xept.Message);
+        }
+
+		return SelectionAction.None;
+	}
+	
+	public void FinishAction(SelectionAction action, bool commit = true)
+	{
+		if( action == SelectionAction.Move )
+		{
+			if( commit )
+			{
+				selectedChessPiece.SetPosition( (int)clickedField.x, (int)clickedField.y );
+			}
 		}
 		else
 		{
-			selectionX = -1;
-			selectionY = -1;
+			if( commit )
+			{
+				selectedField.x = clickedField.x;
+				selectedField.y = clickedField.y;
+			}
+			else
+			{
+				clickedField.x = selectedField.x;
+				clickedField.y = selectedField.y;
+			}
 		}
-		return selectionX >= 0 && selectionY >= 0;
 	}
 
-	public int X
+	public void Select( int X, int Y, bool select = true )
 	{
-		get { return selectionX; }
+		if( select )
+		{
+			selectedField.x = X;
+			selectedField.y = Y;
+		}
+		else
+		{
+			clickedField.x = X;
+			clickedField.y = Y;
+		}
 	}
+	
+	private Pointer GetLaserPointer()
+    {
+        return GameObject.Find("PR_Pointer").GetComponent<Pointer>();
+    }
 
-	public int Y
+	private void InitField( Vector2 field )
 	{
-		get { return selectionY; }
+		field.x = -1;
+		field.y = -1;
 	}
 }

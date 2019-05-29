@@ -6,9 +6,9 @@ public class Interactable : MonoBehaviour
 {
   public void Pressed()
     {
-        MeshRenderer renderer = GetComponent<MeshRenderer>();
-        bool flip = !renderer.enabled;
+        //MeshRenderer renderer = GetComponent<MeshRenderer>();
+        //bool flip = !renderer.enabled;
 
-        renderer.enabled = flip;
+        //renderer.enabled = flip;
     }
 }
