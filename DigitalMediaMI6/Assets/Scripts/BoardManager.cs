@@ -74,7 +74,6 @@ public class BoardManager : MonoBehaviour
 	private void ProcessTurn()
 	{
 		ClickAction action = ClickAction.None;
-		bool isClickedPieceMyColor = false;
 
 		RemoveHighlights();
 		action = selection.ProcessClick();
@@ -84,16 +83,7 @@ public class BoardManager : MonoBehaviour
 			case ClickAction.Select:
 				DebugLogger.Log( "ProcessTurn", "Select");
 				{
-					if( selection.IsPieceClicked )
-						isClickedPieceMyColor = selection.ClickedPiece.isWhite == client.isHost;
-					else
-						isClickedPieceMyColor = false;
-
-					if( isClickedPieceMyColor )
-					{
-						selection.Select( selection.ClickedField );
-						HighlightPiece( selection.ClickedPiece );
-					}
+					SelectIfPossible();
 				}
 				break;
 
@@ -102,14 +92,7 @@ public class BoardManager : MonoBehaviour
 				{
 					if( selection.IsPieceClicked )
 					{
-						isClickedPieceMyColor = selection.ClickedPiece.isWhite == client.isHost;
-
-						if( isClickedPieceMyColor )
-						{
-							selection.Select( selection.ClickedField );
-							HighlightPiece( selection.ClickedPiece );
-						}
-						else
+						if( !SelectIfPossible() )
 							selection.DeSelectChessPiece();
 					}
 					else
@@ -127,6 +110,22 @@ public class BoardManager : MonoBehaviour
 		}
 	}
 
+	#region Select
+	private bool SelectIfPossible()
+	{
+		bool isClickedPieceMyColor = selection.ClickedPiece.isWhite == client.isHost;
+
+		if( isClickedPieceMyColor )
+		{
+			selection.Select( selection.ClickedField );
+			HighlightPiece( selection.ClickedPiece );
+		}
+
+		return isClickedPieceMyColor;
+	}
+	#endregion
+
+	#region Move Chess Piece
 	private void MoveSelectedChessPiece()
 	{
 		DebugLogger.Log( "MoveSelectedChessPiece", "Begin" );
@@ -156,16 +155,7 @@ public class BoardManager : MonoBehaviour
 		else
 			isWhiteTurn = true;
 	}
-
-	private void SendMoveSelectedChessPieceMessage()
-	{
-		string message = "CMOV|";
-		message += BuildCoordinateString( selection.SelectedField ) + "|";
-		message += BuildCoordinateString( selection.ClickedField );
-
-		client.Send( message );
-	}
-
+	
 	private void EndGame()
 	{
 		if (isWhiteTurn)
@@ -182,10 +172,21 @@ public class BoardManager : MonoBehaviour
 		spawner.SpawnAllPieces();
 	}
 	
+	private void SendMoveSelectedChessPieceMessage()
+	{
+		string message = "CMOV|";
+		message += BuildCoordinateString( selection.SelectedField ) + "|";
+		message += BuildCoordinateString( selection.ClickedField );
+
+		client.Send( message );
+	}
+
 	private string BuildCoordinateString( Vector2 coords )
 	{
 		return ( (int)coords.x ).ToString() + "|" + ( (int)coords.y ).ToString();
 	}
+	#endregion
+
 
 	private void DebugPrint(string functionName, string valueName, object value)
 	{

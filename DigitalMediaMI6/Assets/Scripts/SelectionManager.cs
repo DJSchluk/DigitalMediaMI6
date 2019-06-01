@@ -97,7 +97,10 @@ public class SelectionManager
 				}
 				else
 				{
-					return ClickAction.Select;
+					if( IsPieceClicked )
+						return ClickAction.Select;
+					else
+						return ClickAction.None;
 				}
 
 			}
