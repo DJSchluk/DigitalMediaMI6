@@ -4,13 +4,7 @@ using UnityEngine;
 
 public class DrawBoard
 {
-	public void UpdateDrawBoard()
-	{
-		DrawChessboard();
-		//DrawSelection((int)field.x, (int)field.y);
-	}
-
-	private void DrawChessboard()
+	public static void Update()
 	{
 		Vector3 widthLine = Vector3.right * 8;
 		Vector3 heigthLine = Vector3.forward * 8;
@@ -25,22 +19,6 @@ public class DrawBoard
 				Debug.DrawLine(start, start + heigthLine, Color.green);
 
 			}
-		}
-
-	}
-
-	private void DrawSelection(int x, int y)
-	{
-		if (x >= 0 && y >= 0)
-		{
-			//            Debug.Log("DrawSelection: " + x + ", " + y);
-			Debug.DrawLine(
-				Vector3.forward * y + Vector3.right * x,
-				Vector3.forward * (y + 1) + Vector3.right * (x + 1), Color.red);
-
-			Debug.DrawLine(
-				Vector3.forward * (y + 1) + Vector3.right * x,
-				Vector3.forward * y + Vector3.right * (x + 1), Color.red);
 		}
 	}
 }

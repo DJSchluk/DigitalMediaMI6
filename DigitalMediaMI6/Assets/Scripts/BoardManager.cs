@@ -24,9 +24,10 @@ public class BoardManager : MonoBehaviour
 			return client.isHost == isWhiteTurn;
 		}
 	}
-	
+
 	private void Start() 
 	{
+		AddDebugFunctions();
         Instance = this;
 
         spawner = new ChessPieceSpawner( this.transform );
@@ -41,36 +42,12 @@ public class BoardManager : MonoBehaviour
 	private void Update()
 	{
 		bool IsInputPressed = false;
-		SelectionAction action = SelectionAction.None;
 
-		(new DrawBoard()).UpdateDrawBoard();
+		DrawBoard.Update();
+		IsInputPressed = GamePropertiesManager.Instance.CheckIfInputIsPressed();
 
-		//IsInputPressed = OVRInput.Get( OVRInput.Button.One );
-		IsInputPressed = Input.GetMouseButtonDown(0);
-
-		if (IsInputPressed && IsMyTurn)
-		{
-			action = selection.CheckAction();
-
-			switch( action )
-			{
-				case SelectionAction.Select:
-					HighlightPiece( selection.Piece );
-					break;
-
-				case SelectionAction.DeSelect:
-					RemoveHighlights();
-					break;
-
-				case SelectionAction.Move:
-					Debug.Log( "Update" );
-					SendMoveSelectedChessPieceMessage();
-					MoveSelectedChessPiece();
-					break;
-			}
-
-			selection.FinishAction( action );
-		}
+		if( IsInputPressed && IsMyTurn )
+			ProcessTurn();
 	}
 
 	private void RemoveHighlights()
@@ -81,54 +58,103 @@ public class BoardManager : MonoBehaviour
 	private void HighlightPiece(ChessPiece piece)
 	{
 		RemoveHighlights();
-
-		if ( piece != null )
-			BoardHighlights.Instance.HighLightAllowedMoves( piece );
+		BoardHighlights.Instance.HighLightAllowedMoves( piece );
 	}
-
-
+	
 	public void ProcessEnemiesTurn( int Xs, int Ys, int Xd, int Yd )
 	{
 		selection.Select( Xs, Ys );
-		selection.Select( Xd, Yd );
+		if( !selection.IsPieceSelected )
+			return;
 
-		Debug.Log( "ProcessEnemiesTurn" );
+		selection.Click( Xd, Yd );
 		MoveSelectedChessPiece();
+	}
+
+	private void ProcessTurn()
+	{
+		ClickAction action = ClickAction.None;
+		bool isClickedPieceMyColor = false;
+
+		RemoveHighlights();
+		action = selection.ProcessClick();
+		
+		switch( action )
+		{
+			case ClickAction.Select:
+				DebugLogger.Log( "ProcessTurn", "Select");
+				{
+					if( selection.IsPieceClicked )
+						isClickedPieceMyColor = selection.ClickedPiece.isWhite == client.isHost;
+					else
+						isClickedPieceMyColor = false;
+
+					if( isClickedPieceMyColor )
+					{
+						selection.Select( selection.ClickedField );
+						HighlightPiece( selection.ClickedPiece );
+					}
+				}
+				break;
+
+			case ClickAction.DeSelect:
+				DebugLogger.Log( "ProcessTurn", "DeSelect");
+				{
+					if( selection.IsPieceClicked )
+					{
+						isClickedPieceMyColor = selection.ClickedPiece.isWhite == client.isHost;
+
+						if( isClickedPieceMyColor )
+						{
+							selection.Select( selection.ClickedField );
+							HighlightPiece( selection.ClickedPiece );
+						}
+						else
+							selection.DeSelectChessPiece();
+					}
+					else
+						selection.DeSelectChessPiece();
+				}
+				break;
+
+			case ClickAction.Move:
+				DebugLogger.Log( "ProcessTurn", "Move");
+				{
+					SendMoveSelectedChessPieceMessage();
+					MoveSelectedChessPiece();
+				}
+				break;
+		}
 	}
 
 	private void MoveSelectedChessPiece()
 	{
-		Debug.Log( "Move Chess Piece" );
+		DebugLogger.Log( "MoveSelectedChessPiece", "Begin" );
+		ChessPiece victimPiece = selection.ClickedPiece;
 
-		ChessPiece victimPiece = spawner.ChessPieces[(int)selection.ClickedField.x, (int)selection.ClickedField.y];
-		
-		if (victimPiece != null
-		 && victimPiece.isWhite != selection.Piece.isWhite)
+		if( victimPiece != null && victimPiece.isWhite != selection.SelectedPiece.isWhite )
 		{
-			if (victimPiece is King)
+			if( victimPiece is King )
 			{
 				EndGame();
 				return;
 			}
-
-			spawner.RemoveChessPiece(victimPiece);
+			
+			spawner.RemoveChessPiece( victimPiece );
 			DestroyImmediate( victimPiece.gameObject );
 		}
+		
+		selection.MoveChessPiece();
 
 		ToggleTurn();
 	}
 
 	private void ToggleTurn()
 	{
-		Debug.Log( "BeforeToggle: " + isWhiteTurn.ToString() );
-
 		if (isWhiteTurn)
 			isWhiteTurn = false;
 		else
 			isWhiteTurn = true;
-
-		Debug.Log( "AfterToggle: " + isWhiteTurn.ToString() );
-		Debug.Log( "IsMyTurn: " + IsMyTurn.ToString() );
 	}
 
 	private void SendMoveSelectedChessPieceMessage()
@@ -138,11 +164,6 @@ public class BoardManager : MonoBehaviour
 		message += BuildCoordinateString( selection.ClickedField );
 
 		client.Send( message );
-	}
-
-	private string BuildCoordinateString( Vector2 coords )
-	{
-		return ( (int)coords.x ).ToString() + "|" + ( (int)coords.y ).ToString();
 	}
 
 	private void EndGame()
@@ -159,5 +180,23 @@ public class BoardManager : MonoBehaviour
 		RemoveHighlights();
 
 		spawner.SpawnAllPieces();
+	}
+	
+	private string BuildCoordinateString( Vector2 coords )
+	{
+		return ( (int)coords.x ).ToString() + "|" + ( (int)coords.y ).ToString();
+	}
+
+	private void DebugPrint(string functionName, string valueName, object value)
+	{
+		Debug.Log(functionName + ": " + valueName + " = " + value.ToString());
+	}
+
+	private void AddDebugFunctions()
+	{
+		DebugLogger.Functions.Add("MoveSelectedChessPiece");
+		DebugLogger.Functions.Add("ProcessTurn");
+		DebugLogger.Functions.Add("ProcessClick");
+		
 	}
 }

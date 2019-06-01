@@ -105,7 +105,7 @@ public class Client : MonoBehaviour
         players.Add(c);
 
         Debug.Log(players);
-        if(players.Count == 1)
+        if(players.Count == GamePropertiesManager.Instance.Players)
         {
             GameManager.Instance.StartGame();
         }
