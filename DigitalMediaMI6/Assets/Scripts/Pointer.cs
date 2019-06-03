@@ -124,7 +124,7 @@ public class Pointer : MonoBehaviour
         if (!m_CurrentObject)
             return;
 
-        Interactable interactable = m_CurrentObject.GetComponent<Interactable>();
+        //Interactable interactable = m_CurrentObject.GetComponent<Interactable>();
         //interactable.Pressed();
     }
 }
