@@ -195,6 +195,9 @@ public class BoardManager : MonoBehaviour
 
 	private void AddDebugFunctions()
 	{
-		DebugLogger.Functions.Add("CheckIfFieldIsHitted");
+		DebugLogger.Functions.Add("MoveSelectedChessPiece");
+		DebugLogger.Functions.Add("ProcessTurn");
+		DebugLogger.Functions.Add("ProcessClick");
+		
 	}
 }
