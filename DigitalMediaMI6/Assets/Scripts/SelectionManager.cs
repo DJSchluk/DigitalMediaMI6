@@ -84,7 +84,7 @@ public class SelectionManager
 
 			InitField( ref clickedField );
 			
-			if( GamePropertiesManager.Instance.CheckIfFieldIsHitted( spawner, out hittedField ) )
+			if( GamePropertiesManager.Instance.CheckIfFieldIsHitted( out hittedField ) )
 			{
 				Click( (int)hittedField.point.x, (int)hittedField.point.z );
 
