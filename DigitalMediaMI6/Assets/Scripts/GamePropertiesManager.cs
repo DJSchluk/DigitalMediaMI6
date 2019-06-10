@@ -20,6 +20,7 @@ public class GamePropertiesManager
 
 	private ClientMode clientMode;
 	private InputType inputType;
+	private bool allowClickOnPiece;
 
 	public static GamePropertiesManager Instance
 	{
@@ -36,6 +37,7 @@ public class GamePropertiesManager
 	{
 		clientMode = ClientMode.OnePlayer;
 		inputType = InputType.Mouse;
+		allowClickOnPiece = false;
 	}
 
 	#region Code
@@ -52,14 +54,53 @@ public class GamePropertiesManager
 		return IsInputPressed;
 	}
 
-	public bool CheckIfFieldIsHitted( out RaycastHit hittedField )
+	public bool CheckIfFieldIsHitted( ChessPieceSpawner spawner, out RaycastHit hittedField )
 	{
 		bool isFieldHitted = false;
+		Ray ray;
+		float maxDistance;
 
 		if( inputType == InputType.Mouse )
-			isFieldHitted = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hittedField, 25.0f, LayerMask.GetMask("ChessPlane"));
+		{
+			ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			maxDistance = 25.0f;
+		}
 		else //if( inputType == InputType.VR )
-			isFieldHitted = GameObject.Find("PR_Pointer").GetComponent<Pointer>().GetHittedField( out hittedField );
+		{
+			ray = VrPointer.GetRay();
+			maxDistance = 0.0f;
+		}
+
+		isFieldHitted = Physics.Raycast( ray, out hittedField, maxDistance, LayerMask.GetMask("ChessPlane") );
+		
+		if( allowClickOnPiece )
+		{
+			DebugLogger.LogValue( "CheckIfFieldIsHitted", "X", hittedField.point.x );
+			DebugLogger.LogValue( "CheckIfFieldIsHitted", "Y", hittedField.point.z );
+
+			if( isFieldHitted == false
+			 && hittedField.collider.gameObject != null )
+			{
+				for( int iX = 0; iX < 7; iX++ )
+				{
+					for( int iY = 0; iY < 7; iY++ )
+					{
+						ChessPiece piece = spawner.ChessPieces[iX,iY];
+
+						if( piece != null 
+						 && piece == hittedField.collider.gameObject )
+						{
+							hittedField.point = new Vector3( iX, 0, iY );
+							isFieldHitted = true;
+							break;
+						}
+					}
+
+					if( isFieldHitted )
+						break;
+				}
+			}
+		}
 
 		return isFieldHitted;
 	}
@@ -69,6 +110,14 @@ public class GamePropertiesManager
 		get
 		{
 			return clientMode == ClientMode.OnePlayer ? 1 : 2;
+		}
+	}
+
+	private Pointer VrPointer
+	{
+		get
+		{
+			return GameObject.Find("PR_Pointer").GetComponent<Pointer>();
 		}
 	}
 	#endregion
