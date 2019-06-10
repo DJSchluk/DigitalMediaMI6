@@ -102,10 +102,9 @@ public class Pointer : MonoBehaviour
         return hit;
     }
 
-    public bool GetHittedField( out RaycastHit hit )
+    public Ray GetRay()
     {
-        Ray ray = new Ray(m_CurrentOrigin.position, m_CurrentOrigin.forward);
-        return Physics.Raycast(ray, out hit, m_Distance, LayerMask.GetMask("ChessPlane"));
+        return new Ray(m_CurrentOrigin.position, m_CurrentOrigin.forward);
     }
 
     private void SetLineColor()
